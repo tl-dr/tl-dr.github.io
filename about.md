@@ -9,7 +9,7 @@ group: menu
 
 ![](http://dl.dropbox.com/u/3356641/blogstuff/blogpic.jpg)
 
-...Ivan... I am a graduate student in the UC Davis [Graduate Group in Ecology](http://ecology.ucdavis.edu), where I study methods of ecological forecasting. At Davis I am part of the [Hastings Lab](http://two.ucdavis.edu/~me/), the [IGERT in Responding to Rapid Environmental Change](reach.ucdavis.edu), and the [Forest Biology Research Center](http://forestbiology.ucdavis.edu/).
+...Ivan, WJ... I am a graduate student in the UC Davis [Graduate Group in Ecology](http://ecology.ucdavis.edu), where I study methods of ecological forecasting. At Davis I am part of the [Hastings Lab](http://two.ucdavis.edu/~me/), the [IGERT in Responding to Rapid Environmental Change](reach.ucdavis.edu), and the [Forest Biology Research Center](http://forestbiology.ucdavis.edu/).
 
 I am interested in problems related to forecasting ecological changes and using this information to inform economic decision making. In particular, I am interested in rapid state shifts in ecosystems in response to small environmental disturbances. Rapid changes in ecosystem state can have dramatic changes in human well-being, and also provide insight into ecological processes.
 

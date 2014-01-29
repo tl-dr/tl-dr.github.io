@@ -1,0 +1,1172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Noam Ross</title>
+ <link href="http://www.noamross.net/blog/rss.xml" rel="self"/>
+ <link href="http://www.noamross.net"/>
+ <updated>2014-01-28T10:14:08-08:00</updated>
+ <id>http://www.noamross.net</id>
+ <author>
+   <name>Noam Ross</name>
+   <email>noam.ross@gmail.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>Ryan Peek on Creating Shiny Apps</title>
+   <link href="http://www.noamross.net/blog/2014/1/28/rpeekshiny.html"/>
+   <updated>2014-01-28T09:41:36-08:00</updated>
+   <id>hhttp://www.noamross.net/blog/2014/1/28/rpeekshiny</id>
+   <content type="html">&lt;head&gt;
+  &lt;style type=&quot;text/css&quot;  media=&quot;all&quot;&gt;
+    table tbody {border-top:2px; border-bottom:2px;}
+    table thead {border-bottom:1px;}
+  &lt;/style&gt;
+&lt;/head&gt; &lt;p&gt;Yesterday at the &lt;a href=&quot;http://www.noamross.net/davis-r-users-group.html&quot;&gt;Davis R User’s Group&lt;/a&gt;&lt;sup&gt;&lt;a href=&quot;#fn1&quot; class=&quot;footnoteRef&quot; id=&quot;fnref1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, &lt;a href=&quot;https://watershed.ucdavis.edu/people/rapeek?destination=user/71&quot;&gt;Ryan Peek&lt;/a&gt; gave a talk about using the &lt;code&gt;shiny&lt;/code&gt; package to create interactive web apps with R. Here are his slides. Ryan includes a bunch of links to examples and tutorials, as well as his own &lt;a href=&quot;http://aquapeek.shinyapps.io/thermohydrographs/&quot;&gt;thermohydrographs app&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&quot;rpres&quot; style=&quot;padding-bottom: 88%;&quot;&gt;&lt;iframe src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/DRUG_shiny_2014-01-27_presentation.html&quot;
+frameborder=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot;&gt;&lt;/iframe&gt;&lt;/div&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id=&quot;fn1&quot;&gt;&lt;p&gt;Thanks to &lt;a href=&quot;http://www.revolutionanalytics.com/&quot;&gt;Revolution Analytics&lt;/a&gt; for another year of sponsorship!&lt;a href=&quot;#fnref1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>How to format plots for publication using ggplot2 (with some help from Inkscape)</title>
+   <link href="http://www.noamross.net/blog/2013/11/20/formatting-plots-for-pubs.html"/>
+   <updated>2013-11-20T19:51:47-08:00</updated>
+   <id>hhttp://www.noamross.net/blog/2013/11/20/formatting-plots-for-pubs</id>
+   <content type="html">&lt;head&gt;
+  &lt;style type=&quot;text/css&quot;  media=&quot;all&quot;&gt;
+    table tbody {border-top:2px; border-bottom:2px;}
+    table thead {border-bottom:1px;}
+  &lt;/style&gt;
+&lt;/head&gt; &lt;p&gt;&lt;strong&gt;&lt;em&gt;The following is the code from a presentation made by Rosemary Hartman to the &lt;a href=&quot;http://www.noamross.net/davis-r-users-group.html&quot;&gt;Davis R Users’ Group&lt;/a&gt;. I’ve run the code through the &lt;code&gt;spin&lt;/code&gt; function in &lt;code&gt;knitr&lt;/code&gt; to produce this post. Download the script to walk through &lt;a href=&quot;https://gist.github.com/noamross/7576436&quot;&gt;here&lt;/a&gt;.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;First, make your plot. I am going to use the data already in R about sleep habits of different animals. It’s the same one Noam used for &lt;a href=&quot;http://www.noamross.net/blog/2012/10/5/ggplot-introduction.html&quot;&gt;his intro to ggplot.&lt;/a&gt;&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;library&lt;/span&gt;(ggplot2)
+&lt;span class=&quot;kw&quot;&gt;str&lt;/span&gt;(msleep)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## &amp;#39;data.frame&amp;#39;:    83 obs. of  11 variables:
+##  $ name        : chr  &amp;quot;Cheetah&amp;quot; &amp;quot;Owl monkey&amp;quot; &amp;quot;Mountain beaver&amp;quot; &amp;quot;Greater short-tailed shrew&amp;quot; ...
+##  $ genus       : chr  &amp;quot;Acinonyx&amp;quot; &amp;quot;Aotus&amp;quot; &amp;quot;Aplodontia&amp;quot; &amp;quot;Blarina&amp;quot; ...
+##  $ vore        : Factor w/ 4 levels &amp;quot;carni&amp;quot;,&amp;quot;herbi&amp;quot;,..: 1 4 2 4 2 2 1 NA 1 2 ...
+##  $ order       : chr  &amp;quot;Carnivora&amp;quot; &amp;quot;Primates&amp;quot; &amp;quot;Rodentia&amp;quot; &amp;quot;Soricomorpha&amp;quot; ...
+##  $ conservation: Factor w/ 7 levels &amp;quot;&amp;quot;,&amp;quot;cd&amp;quot;,&amp;quot;domesticated&amp;quot;,..: 5 NA 6 5 3 NA 7 NA 3 5 ...
+##  $ sleep_total : num  12.1 17 14.4 14.9 4 14.4 8.7 7 10.1 3 ...
+##  $ sleep_rem   : num  NA 1.8 2.4 2.3 0.7 2.2 1.4 NA 2.9 NA ...
+##  $ sleep_cycle : num  NA NA NA 0.133 0.667 ...
+##  $ awake       : num  11.9 7 9.6 9.1 20 9.6 15.3 17 13.9 21 ...
+##  $ brainwt     : num  NA 0.0155 NA 0.00029 0.423 NA NA NA 0.07 0.0982 ...
+##  $ bodywt      : num  50 0.48 1.35 0.019 600 ...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s say we have written a groundbreaking paper on the relationship between body size and sleep time. Therefore, we want to present a plot of the log of body weight by the total sleep time&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;data =&lt;/span&gt; msleep, &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;log&lt;/span&gt;(bodywt), &lt;span class=&quot;dt&quot;&gt;y =&lt;/span&gt; sleep_total)) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_point&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;color =&lt;/span&gt; vore))
+sleepplot&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-2.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;We made a beautiful model of this relationship&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;slp =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;lm&lt;/span&gt;(sleep_total ~&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;log&lt;/span&gt;(bodywt), &lt;span class=&quot;dt&quot;&gt;data =&lt;/span&gt; msleep)
+&lt;span class=&quot;kw&quot;&gt;summary&lt;/span&gt;(slp)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## 
+## Call:
+## lm(formula = sleep_total ~ log(bodywt), data = msleep)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -6.499 -2.567 -0.168  2.047 10.193 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)   11.089      0.418   26.54   &amp;lt;2e-16 ***
+## log(bodywt)   -0.777      0.125   -6.22    2e-08 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 3.68 on 81 degrees of freedom
+## Multiple R-squared:  0.323,  Adjusted R-squared:  0.315 
+## F-statistic: 38.7 on 1 and 81 DF,  p-value: 2.05e-08&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s put the model on the plot&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;sleepplot +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_abline&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;intercept =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(slp)[&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;], &lt;span class=&quot;dt&quot;&gt;slope =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(slp)[&lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;])
+sleepplot&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-4.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;It’s beautiful! I love it! Unfortunately, you want to submit to Science (you might as well aim high), and this is what they say about figures: &lt;a href=&quot;http://www.sciencemag.org/site/feature/contribinfo/prep/prep_subfigs.xhtml&quot;&gt;http://www.sciencemag.org/site/feature/contribinfo/prep/prep_subfigs.xhtml&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;So we have several problems:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;gray background&lt;/li&gt;
+&lt;li&gt;Poor labels (need units, capital letters, larger font on axes)&lt;/li&gt;
+&lt;li&gt;Poor legend&lt;/li&gt;
+&lt;li&gt;Poor color scheme (avoid red and green together, more contrast needed)&lt;/li&gt;
+&lt;li&gt;Not correct file format or resolution (want a PDF with at least 600dpi)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;First make the labels a little more useful.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;sleepplot +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;labs&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;Log body weight (Kg)&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;y =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;Time asleep (hrs/day)&amp;quot;&lt;/span&gt;)
+sleepplot&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-5.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Now let’s fix the legend. You would think you do this with some sort of “legend” command, but &lt;em&gt;no&lt;/em&gt;, what you are looking for is “scale”.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;scale_color_discrete&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;name =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;Functional&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;st&quot;&gt; feeding group&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;labels =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;carnivore&amp;quot;&lt;/span&gt;, 
+    &lt;span class=&quot;st&quot;&gt;&amp;quot;herbivore&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;insectivore&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;omnivore&amp;quot;&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-6.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;If you haven’t figured it out yet, putting “&lt;code&gt;\n&lt;/code&gt;” in a text string gives you a line break. It took me WAY to long to discover that.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ggplot&lt;/code&gt; automatically gives you evenly spaced hues for color variations, but this is not necessarily the best way to get a good contrasting color scheme. You may want to try &lt;code&gt;scale_color_brewer&lt;/code&gt; for better contrasts. See &lt;a href=&quot;http://colorbrewer2.org&quot;&gt;http://colorbrewer2.org&lt;/a&gt; for more information.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;scale_color_brewer&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;name =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;Functional &lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;st&quot;&gt; feeding group&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;labels =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;carnivore&amp;quot;&lt;/span&gt;, 
+    &lt;span class=&quot;st&quot;&gt;&amp;quot;herbivore&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;insectivore&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;omnivore&amp;quot;&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;type =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;qual&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;palette =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-7.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Oh, crap! Color figures cost an extra $700 on top of the normal page charges! Let’s try something else:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot2 =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;data =&lt;/span&gt; msleep, &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;log&lt;/span&gt;(bodywt), &lt;span class=&quot;dt&quot;&gt;y =&lt;/span&gt; sleep_total)) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_point&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;shape=&lt;/span&gt;vore), &lt;span class=&quot;dt&quot;&gt;size=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;3&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;co&quot;&gt;#&amp;#39; This time we will vary the feeding groups by shapes instead of colors&lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_abline&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;intercept=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(slp)[&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;], &lt;span class=&quot;dt&quot;&gt;slope=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(slp)[&lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;])
+  sleepplot2&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-8.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Now to fix the labels and legend again:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot2 =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;sleepplot2 +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;labs&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;Log body weight (Kg)&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;y =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;Time asleep (hrs/day)&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;co&quot;&gt;#&amp;#39; we will use scale_shape_discrete instead of scale_color_discrete&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;scale_shape_discrete&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;name =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;Functional &lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;st&quot;&gt; feeding group&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;labels =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;carnivore&amp;quot;&lt;/span&gt;, 
+    &lt;span class=&quot;st&quot;&gt;&amp;quot;herbivore&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;insectivore&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;omnivore&amp;quot;&lt;/span&gt;))
+sleepplot2&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-9.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Now, let’s work on how the plot looks overall.&lt;/p&gt;
+&lt;p&gt;ggplot uses “themes” to adjust plot appearence without changes the actual presentation of the data.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot2 +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;theme_bw&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;base_size =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;12&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;base_family =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;Helvetica&amp;quot;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-10.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;theme_bw()&lt;/code&gt; will get rid of the background, and gives you options to change the font. Science recomends Helvetica, wich happens to be R’s default, but we will specify it here anyway.&lt;/p&gt;
+&lt;p&gt;Check out the other fonts out here:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;??postscriptFonts&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For even more fonts, see the &lt;code&gt;extrafont&lt;/code&gt; package.&lt;/p&gt;
+&lt;p&gt;Other pre-set themes can change the look of your plot&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot2 +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;theme_minimal&lt;/span&gt;()&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-111.png&quot; /&gt;
+&lt;/div&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot2 +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;theme_classic&lt;/span&gt;()&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-112.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;For more themes,&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;library&lt;/span&gt;(ggthemes)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you want to publish in the Wall Street Journal…&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot2 +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;theme_wsj&lt;/span&gt;()&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-13.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;But we want to publish in Science, not the Wall Street Journal, so let’s get back to our black and white theme.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot2 =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;sleepplot2 +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;theme_bw&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;base_size =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;12&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;base_family =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;Helvetica&amp;quot;&lt;/span&gt;)
+sleepplot2&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-14.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;You can’t really see the gridlines with the &lt;code&gt;bw&lt;/code&gt; theme, so we are going to tweak the pre-set theme using the &lt;code&gt;theme&lt;/code&gt; function. &lt;code&gt;theme&lt;/code&gt; allows you to do all kinds of stuff involved with how the plot looks.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;?theme&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot2 +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;co&quot;&gt;#increase size of gridlines&lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;theme&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;panel.grid.major =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;element_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;size =&lt;/span&gt; .&lt;span class=&quot;dv&quot;&gt;5&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;color =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;grey&amp;quot;&lt;/span&gt;),
+  &lt;span class=&quot;co&quot;&gt;#increase size of axis lines&lt;/span&gt;
+  &lt;span class=&quot;dt&quot;&gt;axis.line =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;element_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;size=&lt;/span&gt;.&lt;span class=&quot;dv&quot;&gt;7&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;color =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;black&amp;quot;&lt;/span&gt;),
+  &lt;span class=&quot;co&quot;&gt;#Adjust legend position to maximize space, use a vector of proportion&lt;/span&gt;
+  &lt;span class=&quot;co&quot;&gt;#across the plot and up the plot where you want the legend. &lt;/span&gt;
+  &lt;span class=&quot;co&quot;&gt;#You can also use &amp;quot;left&amp;quot;, &amp;quot;right&amp;quot;, &amp;quot;top&amp;quot;, &amp;quot;bottom&amp;quot;, for legends on t&lt;/span&gt;
+  &lt;span class=&quot;co&quot;&gt;#he side of the plot&lt;/span&gt;
+  &lt;span class=&quot;dt&quot;&gt;legend.position =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(.&lt;span class=&quot;dv&quot;&gt;85&lt;/span&gt;,.&lt;span class=&quot;dv&quot;&gt;7&lt;/span&gt;),
+  &lt;span class=&quot;co&quot;&gt;#increase the font size&lt;/span&gt;
+  &lt;span class=&quot;dt&quot;&gt;text =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;element_text&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;size=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;14&lt;/span&gt;)) &lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-15.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;You can save this theme for later use&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;science_theme =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;theme&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;panel.grid.major =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;element_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;size =&lt;/span&gt; &lt;span class=&quot;fl&quot;&gt;0.5&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;color =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;grey&amp;quot;&lt;/span&gt;), 
+    &lt;span class=&quot;dt&quot;&gt;axis.line =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;element_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;size =&lt;/span&gt; &lt;span class=&quot;fl&quot;&gt;0.7&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;color =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;black&amp;quot;&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;legend.position =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;fl&quot;&gt;0.85&lt;/span&gt;, 
+        &lt;span class=&quot;fl&quot;&gt;0.7&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;text =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;element_text&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;size =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;14&lt;/span&gt;))
+sleepplot2 =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;sleepplot2 +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;science_theme
+sleepplot2&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-16.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;That looks pretty good. Now we need to get it exported properly. The instructions say the figure should be sized to fit in one or two columns (2.3 or 4.6 inches), so we want them to look good at that resolution.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;pdf&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;file =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;sleepplot.pdf&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;width=&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;6&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;height =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;, &lt;span class=&quot;co&quot;&gt;#&amp;#39; see how it looks at this size&lt;/span&gt;
+    &lt;span class=&quot;dt&quot;&gt;useDingbats=&lt;/span&gt;F) &lt;span class=&quot;co&quot;&gt;#I have had trouble when uploading figures with digbats before, so I don&amp;#39;t use them&lt;/span&gt;
+sleepplot2 &lt;span class=&quot;co&quot;&gt;#print our plot&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;dev.off&lt;/span&gt;() &lt;span class=&quot;co&quot;&gt;#stop making pdfs&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## pdf 
+##   2&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;a-few-other-tricks-to-improve-the-look-of-your-plots&quot;&gt;A few other tricks to improve the look of your plots:&lt;/h4&gt;
+&lt;p&gt;Let’s say we are grouping things by categories instead of a regression&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepcat =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(msleep, &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x =&lt;/span&gt; vore, &lt;span class=&quot;dt&quot;&gt;y =&lt;/span&gt; sleep_total, &lt;span class=&quot;dt&quot;&gt;color =&lt;/span&gt; conservation))
+sleepcat +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_point&lt;/span&gt;()&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-18.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;It’s hard to see what’s going on there, so we can jitter the points to make them more visible.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepcat +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_point&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;position =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;position_jitter&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;w =&lt;/span&gt; &lt;span class=&quot;fl&quot;&gt;0.1&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-19.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Maybe this would be better with averages and error bars instead of every point:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;library&lt;/span&gt;(plyr)
+msleepave =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ddply&lt;/span&gt;(msleep, .(vore, conservation), summarize, &lt;span class=&quot;dt&quot;&gt;meansleep =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;mean&lt;/span&gt;(sleep_total), 
+    &lt;span class=&quot;dt&quot;&gt;sdsleep =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;sd&lt;/span&gt;(sleep_total)/&lt;span class=&quot;kw&quot;&gt;sqrt&lt;/span&gt;(&lt;span class=&quot;dv&quot;&gt;22&lt;/span&gt;))
+sleepmean =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(msleepave, &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x =&lt;/span&gt; vore, &lt;span class=&quot;dt&quot;&gt;y =&lt;/span&gt; meansleep, &lt;span class=&quot;dt&quot;&gt;color =&lt;/span&gt; conservation))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Plot it with means and error bars +/- 1 stadard deviation&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepmean +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_point&lt;/span&gt;() +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_errorbar&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;ymax =&lt;/span&gt; meansleep +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;sdsleep, &lt;span class=&quot;dt&quot;&gt;ymin =&lt;/span&gt; meansleep +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;    &lt;/span&gt;sdsleep), &lt;span class=&quot;dt&quot;&gt;width =&lt;/span&gt; &lt;span class=&quot;fl&quot;&gt;0.2&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-21.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Spread them out, but in an orderly fashion this time, with position_dodge rather than jitter&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepmean +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_point&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;position =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;position_dodge&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;width =&lt;/span&gt; &lt;span class=&quot;fl&quot;&gt;0.5&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;height =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;size =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_errorbar&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;ymax =&lt;/span&gt; meansleep +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;sdsleep, &lt;span class=&quot;dt&quot;&gt;ymin =&lt;/span&gt; meansleep -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;sdsleep), 
+        &lt;span class=&quot;dt&quot;&gt;position =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;position_dodge&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;width =&lt;/span&gt; &lt;span class=&quot;fl&quot;&gt;0.5&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;height =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;width =&lt;/span&gt; &lt;span class=&quot;fl&quot;&gt;0.5&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## ymax not defined: adjusting position using y instead&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-22.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Note that dodging the points gives the conservation status in the same order for each feeding type category. A little more organized.&lt;/p&gt;
+&lt;h4 id=&quot;some-other-things-you-might-want-to-do-with-formatting&quot;&gt;Some other things you might want to do with formatting:&lt;/h4&gt;
+&lt;p&gt;Add annotation to the plot&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot2 +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;annotate&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;text&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;label =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;R2 = 0.999&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;x =&lt;/span&gt; -&lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;y =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;17&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-23.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Let’s put that annotation in italics&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;sleepplot2 +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;annotate&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;text&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;label =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;R2 = 0.999&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;x =&lt;/span&gt; -&lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;y =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;17&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;fontface =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;3&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/roseplot-24.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;NOW. Let’s put half that annotation in italics, the other half plain, then insert five greek characters and rotate it 90 degrees!&lt;/p&gt;
+&lt;p&gt;OR we can beat our head against a wall until it explodes and export our plot into an actual graphics program.&lt;/p&gt;
+&lt;p&gt;Not everything has to be done in R. ‘SVG’ files are vector graphic files that can be easily edited in the FREE GUI-based program &lt;a href=&quot;http://inkscape.org/&quot;&gt;Inkscape&lt;/a&gt;. Make and SVG and you can edit it by hand for final tweaks. Inkscape can also edit and export PDFs.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;svg&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;filename =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;sleepplot.svg&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;width =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;6&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;height =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;)
+sleepplot2
+&lt;span class=&quot;kw&quot;&gt;dev.off&lt;/span&gt;()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## pdf 
+##   2&lt;/code&gt;&lt;/pre&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>MBI Meeting Poster: Optimal Control of Forest Disease</title>
+   <link href="http://www.noamross.net/blog/2013/11/7/mbi-poster-post.html"/>
+   <updated>2013-11-07T22:20:40-08:00</updated>
+   <id>hhttp://www.noamross.net/blog/2013/11/7/mbi-poster-post</id>
+   <content type="html">&lt;head&gt;
+  &lt;style type=&quot;text/css&quot;  media=&quot;all&quot;&gt;
+    table tbody {border-top:2px; border-bottom:2px;}
+    table thead {border-bottom:1px;}
+  &lt;/style&gt;
+&lt;/head&gt; &lt;p&gt;For the past week I’ve been at the &lt;a href=&quot;http://mbi.osu.edu/&quot;&gt;Mathematical Biosciences Institute&lt;/a&gt; at Ohio State, attending the &lt;a href=&quot;http://mbi.osu.edu/2013/ws3description.html&quot;&gt;Workshop on Sustainable Management of Living Natural Resources&lt;/a&gt;. It’s been an absolutely top-notch meeting. I need to get myself to more of these small workshops.&lt;/p&gt;
+&lt;p&gt;I brought a poster describing some of my work in progress on managing Sudden Oak Death. Here it is, and it’s archived over at &lt;a href=&quot;http://dx.doi.org/10.6084/m9.figshare.833911&quot;&gt;Figshare&lt;/a&gt;.&lt;/p&gt;
+&lt;iframe src=&quot;http://wl.figshare.com/articles/833911/embed?show_title=0&quot; width=&quot;568&quot; height=&quot;504&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Some analytics: Does age structure matter for disease spread?</title>
+   <link href="http://www.noamross.net/blog/2013/6/21/multi-infection-analytic.html"/>
+   <updated>2013-06-21T13:58:39-07:00</updated>
+   <id>hhttp://www.noamross.net/blog/2013/6/21/multi-infection-analytic</id>
+   <content type="html">&lt;head&gt;
+  &lt;style type=&quot;text/css&quot;  media=&quot;all&quot;&gt;
+    table tbody {border-top:2px; border-bottom:2px;}
+    table thead {border-bottom:1px;}
+  &lt;/style&gt;
+&lt;/head&gt; &lt;p&gt;My &lt;a href=&quot;http://www.noamross.net/blog/2013/6/11/multi-infection-tests.html&quot;&gt;first crack at an age-structured disease model with multiple infections&lt;/a&gt; yielded the interesting result that one could observe differences in disease rates across age without any actual differences in the biology between old and young individuals. Today I’m trying to answer a different question analytically: does age structure matter for the course of the disease in the whole population?&lt;/p&gt;
+&lt;p&gt;Here’s the model. There are two minor changes: I no longer scale &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline J&quot; alt=&quot;J&quot; /&gt;&lt;/span&gt; and &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline A&quot; alt=&quot;A&quot; /&gt;&lt;/span&gt; with &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline K&quot; alt=&quot;K&quot; /&gt;&lt;/span&gt; in the third and fourth equations; there’s no reason the encounter rate should be tied to carrying capacity. Also, I’ve put stage-specific values for all the parameters (now including &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \alpha&quot; alt=&quot;\alpha&quot; /&gt;&lt;/span&gt;, &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \mu&quot; alt=&quot;\mu&quot; /&gt;&lt;/span&gt;, and &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \lambda&quot; alt=&quot;\lambda&quot; /&gt;&lt;/span&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;\[\begin{aligned}
+  \frac{dJ}{dt}  &amp;amp;= A f_A \left(1 - \frac{J+A}{K} \right) + J  
+                    \left(f_J \left(1 - \frac{J+A}{K} \right) - 
+                          d_J - g\right) - \alpha_J P_J \\
+  \frac{dA}{dt}  &amp;amp;= J g - A d_A - \alpha_A P_A \\
+  \frac{dP_J}{dt}  &amp;amp;= \lambda_J J (P_J + P_A)  - 
+                      P_J \left(d_J + \mu_J + g + \alpha_J 
+                                \left(1 + \frac{P_J}{J} \right) \right) \\
+  \frac{dP_A}{dt}  &amp;amp;= \lambda_A A (P_J + P_A)  + P_J  g - 
+                      P_A \left(d_A + \mu_A + \alpha_A 
+                                \left(1 + \frac{P_A}{A}  \right) \right)
+\end{aligned}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;To examine whether the age structure matters, I try to collapse this down to a model of just one aggregated population. Let&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;\[\begin{aligned}
+  N = J + A, &amp;amp;&amp;amp; P = P_J + P_A
+\end{aligned}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The parameters then become the population-weighted means of their components:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;\[\begin{aligned}
+   d = (J d_J + A d_A)/N, &amp;amp;&amp;amp; f = (J f_J + A d_A)/N \\
+   \mu = (P_J \mu_J + P_A \mu_A)/P, &amp;amp;&amp;amp; \alpha = (P_J \alpha_J + P_A \alpha_A)/P
+\end{aligned}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The first two equations sum easily:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;img src=&quot;http://latex.codecogs.com/png.latex?\frac{dN}{dt} = Nf\left(1 - \frac{N}{K}\right) - dN - \alpha P&quot; alt=&quot;\frac{dN}{dt} = Nf\left(1 - \frac{N}{K}\right) - dN - \alpha P&quot; /&gt;&lt;/div&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The second two equations don’t do quite the same thing:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;\[\begin{aligned}
+  \frac{dP}{dt} &amp;amp; = \lambda NP - \mu P - \left(d_J P_J + d_A P_A\right) - 
+                     \alpha P - \left(\alpha_J \frac{P_J^2}{J} + 
+                                       \alpha_A \frac{P_A^2}{A}\right) 
+\end{aligned}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;To compare this equation to a model with no age structure, I define two terms, &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \psi&quot; alt=&quot;\psi&quot; /&gt;&lt;/span&gt; and &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \phi&quot; alt=&quot;\phi&quot; /&gt;&lt;/span&gt; which represent the differences between the terms in parentheses in the equation above and the equivalent term in a model without age structure. For ease of later calculations, I scale these by &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline P&quot; alt=&quot;P&quot; /&gt;&lt;/span&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;\[\begin{aligned}
+    \psi P &amp;amp;= (d_J P_J + d_A P_A) - dP \\
+           &amp;amp;= (d_J P_J + d_A P_A) - \frac{d_J J + d_A A}{J + A} (P_J + P_A) \\
+           &amp;amp;= \frac{(d_J - d_A)P_J A + (d_A - d_J)P_A J}{J+A} \\
+           &amp;amp;= \frac{(d_J - d_A)(P_J A - P_A J)}{J+A} 
+  \end{aligned}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;\[\begin{aligned}
+    \phi P &amp;amp;= \left(\alpha_J \frac{P_J^2}{J} + \alpha_A \frac{P_A^2}{A}\right) - 
+              \alpha \frac{P^2}{N}  \\
+           &amp;amp;= \left(\alpha_J \frac{P_J^2}{J} + \alpha_A \frac{P_A^2}{A}\right) - 
+              \frac{(\alpha_J P_J + \alpha_A P_A)(P_J + P_A)}{(J+A)} \\
+           &amp;amp;=  \frac{(\alpha_J P_J A - \alpha_A P_A J)(P_J A - P_A J)}{JA(J+A)} 
+  \end{aligned}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;I substitute these into &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \frac{dP}{dt}&quot; alt=&quot;\frac{dP}{dt}&quot; /&gt;&lt;/span&gt; above to get&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;\[\frac{dP}{dt} = \lambda N P - (\mu + d) P - 
+  \alpha P \left(1 + \frac{P}{N}\right) - (\psi + \phi)P\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;How to &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \phi&quot; alt=&quot;\phi&quot; /&gt;&lt;/span&gt; and &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \psi&quot; alt=&quot;\psi&quot; /&gt;&lt;/span&gt; modify the dynamics? &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \psi&quot; alt=&quot;\psi&quot; /&gt;&lt;/span&gt; is zero at &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline d_A=d_J&quot; alt=&quot;d_A=d_J&quot; /&gt;&lt;/span&gt; or &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \frac{P_J}{J} = \frac{P_A}{A}&quot; alt=&quot;\frac{P_J}{J} = \frac{P_A}{A}&quot; /&gt;&lt;/span&gt;. It will be positive if the class with higher infection rate also has a higher base mortality rate, and negative otherwise. A positive &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \psi&quot; alt=&quot;\psi&quot; /&gt;&lt;/span&gt; value will decrease the growth of the parasite population, as more-infected individuals will die at a faster rate, removing more parasites from the population.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \phi&quot; alt=&quot;\phi&quot; /&gt;&lt;/span&gt; is zero at at &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \frac{P_J}{J} = \frac{P_A}{A}&quot; alt=&quot;\frac{P_J}{J} = \frac{P_A}{A}&quot; /&gt;&lt;/span&gt;, but not at &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \alpha_J = \alpha_A&quot; alt=&quot;\alpha_J = \alpha_A&quot; /&gt;&lt;/span&gt;, meaning that dynamics should deviate from an a model without age structure even if there is no difference in disease-driven mortality between age classes. For &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \phi&quot; alt=&quot;\phi&quot; /&gt;&lt;/span&gt; to be positive either both or neither of the terms in parenthesis must be greater than zero, or&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;\[\left(\frac{P_J}{J} &amp;gt; \frac{P_A}{A}\right) \Leftrightarrow 
+  \left(\alpha_J \frac{P_J}{J} &amp;gt; \alpha_A \frac{P_A}{A}\right)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Note that if &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \alpha_J = \alpha_A&quot; alt=&quot;\alpha_J = \alpha_A&quot; /&gt;&lt;/span&gt;, this is always true. So if the disease has an identical effect on both age classes, &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \phi&quot; alt=&quot;\phi&quot; /&gt;&lt;/span&gt; will be positive. A positive value of &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \phi&quot; alt=&quot;\phi&quot; /&gt;&lt;/span&gt; will slow growth of the parasite population by increasing the death rate of the more infected population, more rapidly removing parasites. The reverse will happen when &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \phi&quot; alt=&quot;\phi&quot; /&gt;&lt;/span&gt; is negative. The more infected population will lose fewer individuals to disease because of a low relative &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \alpha&quot; alt=&quot;\alpha&quot; /&gt;&lt;/span&gt; value, and the rate of parasite growth will increase because these individuals will remain to reproduce. Essentially, the value of &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \phi&quot; alt=&quot;\phi&quot; /&gt;&lt;/span&gt; represents whether the ratio &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \alpha_J/\alpha_A&quot; alt=&quot;\alpha_J/\alpha_A&quot; /&gt;&lt;/span&gt; enhances or offsets the non-linear relationship between parasite load and parasite loss caused by aggregation of parasites.&lt;/p&gt;
+&lt;p&gt;Now the system of equations is:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;\[
+\begin{aligned}
+  \frac{dN}{dt} &amp;amp;= Nf \left(1 - \frac{N}{K}\right) - dN - \alpha P \\
+  \frac{dP}{dt} &amp;amp;= \lambda N P - (\mu + d) P - 
+                   \alpha P \left(1 + \frac{P}{N}\right) - P(\psi + \phi) 
+\end{aligned}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Since all terms in &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \psi&quot; alt=&quot;\psi&quot; /&gt;&lt;/span&gt; and &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \phi&quot; alt=&quot;\phi&quot; /&gt;&lt;/span&gt; contain &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline P_X&quot; alt=&quot;P_X&quot; /&gt;&lt;/span&gt; values in the numerators but not denominators, as &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline P \rightarrow 0&quot; alt=&quot;P \rightarrow 0&quot; /&gt;&lt;/span&gt;, so do &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \psi&quot; alt=&quot;\psi&quot; /&gt;&lt;/span&gt; and &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \phi&quot; alt=&quot;\phi&quot; /&gt;&lt;/span&gt;. This means that the growth rate of the parasites is unaffected by the population structure when numbers are small. We can calculate this rate, which is the same as it would be with no population structure:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;img src=&quot;http://latex.codecogs.com/png.latex?\frac{dP/dt}{P}\bigg|_{P\rightarrow 0} = \lambda N - \mu - d - \alpha&quot; alt=&quot;\frac{dP/dt}{P}\bigg|_{P\rightarrow 0} = \lambda N - \mu - d - \alpha&quot; /&gt;&lt;/div&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;img src=&quot;http://latex.codecogs.com/png.latex?N_{\text{threshold}} = \frac{\mu + d + \alpha}{\lambda}&quot; alt=&quot;N_{\text{threshold}} = \frac{\mu + d + \alpha}{\lambda}&quot; /&gt;&lt;/div&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;(A reminder here that reducing &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \alpha&quot; alt=&quot;\alpha&quot; /&gt;&lt;/span&gt; but not &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \lambda&quot; alt=&quot;\lambda&quot; /&gt;&lt;/span&gt; in the tanoak population is a losing strategy)&lt;/p&gt;
+&lt;p&gt;Setting &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline dN/dt = 0&quot; alt=&quot;dN/dt = 0&quot; /&gt;&lt;/span&gt;, we can solve for &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \frac{P}{N}&quot; alt=&quot;\frac{P}{N}&quot; /&gt;&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;\[
+  \frac{P}{N} = \frac{f\left(1-\frac{N}{K}\right) -d }{\alpha}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Under disease-free conditions, this is easily solved for &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline N&quot; alt=&quot;N&quot; /&gt;&lt;/span&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;img src=&quot;http://latex.codecogs.com/png.latex?N_{eq}\big|_{P=0} = {K\left(1-\frac{d}{f}\right)}&quot; alt=&quot;N_{eq}\big|_{P=0} = {K\left(1-\frac{d}{f}\right)}&quot; /&gt;&lt;/div&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;If the population was unstructured, we would get:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;img src=&quot;http://latex.codecogs.com/png.latex?N_{eq}\big|_{P_{eq} &amp;gt; 0} = \frac{\mu + \alpha + f}{\lambda + \frac{f}{K} } &quot; alt=&quot;N_{eq}\big|_{P_{eq} &amp;gt; 0} = \frac{\mu + \alpha + f}{\lambda + \frac{f}{K} } &quot; /&gt;&lt;/div&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;With the age structure, &lt;span class=&quot;math&quot;&gt;\[
+\begin{aligned}
+  \frac{dP}{dt} &amp;amp;= 0 = P\left(\lambda N - \mu - d - \alpha - 
+                              \alpha \frac{P}{N}\right) -  P(\psi + \phi)\\
+  N &amp;amp;= \frac{\mu + \alpha + f + \psi + \phi}{\lambda + \frac{f}{K}} 
+\end{aligned} 
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Positive values of &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \psi&quot; alt=&quot;\psi&quot; /&gt;&lt;/span&gt; and &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \phi&quot; alt=&quot;\phi&quot; /&gt;&lt;/span&gt; increase the overall host population, and following the expression for &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline P/N&quot; alt=&quot;P/N&quot; /&gt;&lt;/span&gt; above, reduce the mean infection level.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Printing R help files in the console or in knitr documents</title>
+   <link href="http://www.noamross.net/blog/2013/6/18/helpconsoleexample.html"/>
+   <updated>2013-06-18T10:57:22-07:00</updated>
+   <id>hhttp://www.noamross.net/blog/2013/6/18/helpconsoleexample</id>
+   <content type="html">&lt;head&gt;
+  &lt;style type=&quot;text/css&quot;  media=&quot;all&quot;&gt;
+    table tbody {border-top:2px; border-bottom:2px;}
+    table thead {border-bottom:1px;}
+  &lt;/style&gt;
+&lt;/head&gt; &lt;p&gt;Yesterday, I was creating a &lt;code&gt;knitr&lt;/code&gt; document based on a script, and was looking for a way to include content from an R help file. The script, which was a teaching document, had a &lt;code&gt;help()&lt;/code&gt; command for when the author wanted to refer readers to R documentation. I wanted that text in my final document, though.&lt;/p&gt;
+&lt;p&gt;There’s no standard way to do this in R, but with some help from &lt;a href=&quot;http://stackoverflow.com/questions/7493843/how-to-write-contents-of-help-to-a-file-from-within-r&quot;&gt;Stack Overflow&lt;/a&gt; and &lt;a href=&quot;https://gist.github.com/SChamberlain/5801605&quot;&gt;Scott Chamberlain&lt;/a&gt;, I figured out I needed some functions hidden in the depths of the &lt;code&gt;tools&lt;/code&gt; package. So I wrote this function:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;help_console &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;function(topic, &lt;span class=&quot;dt&quot;&gt;format=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;text&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;html&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;latex&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;Rd&amp;quot;&lt;/span&gt;),
+                         &lt;span class=&quot;dt&quot;&gt;lines=&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;NULL&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;before=&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;NULL&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;after=&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;NULL&lt;/span&gt;) {  
+  format=&lt;span class=&quot;kw&quot;&gt;match.arg&lt;/span&gt;(format)
+  if (!&lt;span class=&quot;kw&quot;&gt;is.character&lt;/span&gt;(topic)) topic &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;deparse&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;substitute&lt;/span&gt;(topic))
+  helpfile =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;utils:::&lt;span class=&quot;kw&quot;&gt;.getHelpFile&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;help&lt;/span&gt;(topic))
+
+  hs &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;capture.output&lt;/span&gt;(switch(format, 
+                              &lt;span class=&quot;dt&quot;&gt;text=&lt;/span&gt;tools:::&lt;span class=&quot;kw&quot;&gt;Rd2txt&lt;/span&gt;(helpfile),
+                              &lt;span class=&quot;dt&quot;&gt;html=&lt;/span&gt;tools:::&lt;span class=&quot;kw&quot;&gt;Rd2HTML&lt;/span&gt;(helpfile),
+                              &lt;span class=&quot;dt&quot;&gt;latex=&lt;/span&gt;tools:::&lt;span class=&quot;kw&quot;&gt;Rd2latex&lt;/span&gt;(helpfile),
+                              &lt;span class=&quot;dt&quot;&gt;Rd=&lt;/span&gt;tools:::&lt;span class=&quot;kw&quot;&gt;prepare_Rd&lt;/span&gt;(helpfile)
+                              )
+                      )
+  if(!&lt;span class=&quot;kw&quot;&gt;is.null&lt;/span&gt;(lines)) hs &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;hs[lines]
+  hs &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(before, hs, after)
+  &lt;span class=&quot;kw&quot;&gt;cat&lt;/span&gt;(hs, &lt;span class=&quot;dt&quot;&gt;sep=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;ch&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&lt;/span&gt;)
+  &lt;span class=&quot;kw&quot;&gt;invisible&lt;/span&gt;(hs)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;help_console&lt;/code&gt; prints the help file to the console or lets you assign the help file text to a character. Below, I use it to dynamically print the start of the help file for the &lt;code&gt;optim()&lt;/code&gt; function as quoted HTML (note that the &lt;code&gt;knitr&lt;/code&gt; chunk has the option &lt;code&gt;results='asis')&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;help_console&lt;/span&gt;(optim, &lt;span class=&quot;st&quot;&gt;&amp;quot;html&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;lines =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;:&lt;span class=&quot;dv&quot;&gt;25&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;before =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;&amp;lt;blockquote&amp;gt;&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;after =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;&amp;lt;/blockquote&amp;gt;&amp;quot;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;
+R: General-purpose Optimization
+&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt; &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;R.css&quot;&gt;
+&lt;/head&gt;&lt;body&gt;
+
+&lt;table width=&quot;100%&quot; summary=&quot;page for optim&quot;&gt;&lt;tr&gt;&lt;td&gt;
+optim
+&lt;/td&gt;&lt;td align=&quot;right&quot;&gt;
+R Documentation
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;h2&gt;
+General-purpose Optimization
+&lt;/h2&gt;
+
+&lt;h3&gt;
+Description
+&lt;/h3&gt;
+
+&lt;p&gt;
+General-purpose optimization based on Nelder–Mead, quasi-Newton and conjugate-gradient algorithms. It includes an option for box-constrained optimization and simulated annealing.
+&lt;/p&gt;
+
+
+&lt;h3&gt;
+Usage
+&lt;/h3&gt;
+
+&lt;pre&gt;
+optim(par, fn, gr = NULL, …, method = c(“Nelder-Mead”, “BFGS”, “CG”, “L-BFGS-B”, “SANN”, “Brent”), lower = -Inf, upper = Inf, control = list(), hessian = FALSE)
+&lt;/blockquote&gt;
+
+
+&lt;p&gt;The function is part of my &lt;a href=&quot;https://github.com/noamross/noamtools/blob/master/R/help_console.R&quot;&gt;&lt;code&gt;noamtools&lt;/code&gt; package on GitHub&lt;/a&gt;, where I keep various convenience functions. Enjoy, and fork if you have improvements!&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Dave Harris on Maximum Likelihood Estimation</title>
+   <link href="http://www.noamross.net/blog/2013/6/17/harrisbbmle.html"/>
+   <updated>2013-06-17T15:11:17-07:00</updated>
+   <id>hhttp://www.noamross.net/blog/2013/6/17/harrisbbmle</id>
+   <content type="html">&lt;head&gt;
+  &lt;style type=&quot;text/css&quot;  media=&quot;all&quot;&gt;
+    table tbody {border-top:2px; border-bottom:2px;}
+    table thead {border-bottom:1px;}
+  &lt;/style&gt;
+&lt;/head&gt; &lt;p&gt;&lt;em&gt;At our last &lt;a href=&quot;http://www.noamross.net/davis-r-users-group.html&quot;&gt;Davis R Users’ Group&lt;/a&gt; meeting of the quarter, &lt;a href=&quot;https://sihlab.wordpress.com/david-j-harris/&quot;&gt;Dave Harris&lt;/a&gt; gave a talk on how to use the &lt;code&gt;bbmle&lt;/code&gt; package to fit mechanistic models to ecological data. Here’s his script, which I ran throgh the &lt;code&gt;spin&lt;/code&gt; function in &lt;code&gt;knitr&lt;/code&gt;:&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;co&quot;&gt;# Load data&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;library&lt;/span&gt;(emdbook)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## Loading required package: MASS Loading required package: lattice&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;library&lt;/span&gt;(bbmle)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## Loading required package: stats4&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;data&lt;/span&gt;(ReedfrogFuncresp)
+&lt;span class=&quot;kw&quot;&gt;plot&lt;/span&gt;(ReedfrogFuncresp, &lt;span class=&quot;dt&quot;&gt;xlim =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;xaxs =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;i&amp;quot;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/h1.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Statistical models are stories about how the data came to be. The deterministic part of the story is a (slightly mangled) version of what you’d expect if the predators followed a Type II functional response:&lt;/p&gt;
+&lt;p&gt;Holling’s Disk equation for Type II Functional Response&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;a&lt;/code&gt; is attack rate&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;h&lt;/code&gt; is handling time&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;disk =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;function(N, a, h) {
+    N *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;a/(&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;N *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;a *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;h)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can plot different values of &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;h&lt;/code&gt; to see what kinds of data this model would generate &lt;em&gt;on average:&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;plot&lt;/span&gt;(ReedfrogFuncresp, &lt;span class=&quot;dt&quot;&gt;xlim =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;xaxs =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;i&amp;quot;&lt;/span&gt;)
+&lt;span class=&quot;co&quot;&gt;# a = 3, h = 0.05 (black) rises too quickly, saturates too quickly&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;curve&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;disk&lt;/span&gt;(x, &lt;span class=&quot;dt&quot;&gt;a =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;3&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;h =&lt;/span&gt; &lt;span class=&quot;fl&quot;&gt;0.05&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;add =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;from =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;to =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;)
+&lt;span class=&quot;co&quot;&gt;# a = 2, h = 0.02 (red) still rises too quickly&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;curve&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;disk&lt;/span&gt;(x, &lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;, &lt;span class=&quot;fl&quot;&gt;0.02&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;add =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;from =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;to =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;col =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;)
+&lt;span class=&quot;co&quot;&gt;# a = 0.5, h = 0.02 (blue) looks like a plausible data-generating process&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;curve&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;disk&lt;/span&gt;(x, &lt;span class=&quot;fl&quot;&gt;0.5&lt;/span&gt;, &lt;span class=&quot;fl&quot;&gt;0.02&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;add =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;from =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;to =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;col =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/h3.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;The blue curve looks plausible, but is it optimal? Does it tell the best possible story about how the data could have been generated?&lt;/p&gt;
+&lt;p&gt;In order to tell if it’s optimal, we need to pick something to optimize. Usually, that will be the log-likelihood–i.e. the log-probability that the data would have come out this way if the model were true. Models with higher probabilities of generating the data we observed therefore have higher likelihoods. For various arbitrary reasons, it’s common to minimize the negative log-likelihood rather than maximizing the positive log-likelihood. So let’s write a function that says what the log-likelihood is for a given pair of &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;h&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The log-likelihood is the sum of log-probabilities from each data point. The log-probability for a data point is (in this contrived example) drawn from a binomial (“coin flip”) distribution, whose mean is determined by the disk equation.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;NLL =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;function(a, h) {
+    -&lt;span class=&quot;kw&quot;&gt;sum&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;dbinom&lt;/span&gt;(ReedfrogFuncresp$Killed, &lt;span class=&quot;dt&quot;&gt;size =&lt;/span&gt; ReedfrogFuncresp$Initial, &lt;span class=&quot;dt&quot;&gt;prob =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;disk&lt;/span&gt;(ReedfrogFuncresp$Initial, 
+        a, h)/ReedfrogFuncresp$Initial, &lt;span class=&quot;dt&quot;&gt;log =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can optimize the model with the mle2 function. It finds the lowest value for the negative log-likelihood (i.e. the combination of parameters with the highest positive likelihood, or the maximum likelihood estimate).&lt;/p&gt;
+&lt;p&gt;The NLL function we defined above requires starting values for &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;h&lt;/code&gt;. Let’s naively start them at 1, 1&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;fit =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;mle2&lt;/span&gt;(NLL, &lt;span class=&quot;dt&quot;&gt;start =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;a =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;h =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You’ll probably get lots of warnings about NaNs. That’s just the optimization procedure complaining because it occasionally tries something impossible (such as a set of parameters that would generate a negative probability of being eaten). In general, these warnings are nothing to worry about, since the optimization procedure will just try better values. But it’s worth checking to make sure that there are no other warnings or problems by calling &lt;code&gt;warnings()&lt;/code&gt; after you fit the model.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;co&quot;&gt;# print out the results&lt;/span&gt;
+fit&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## 
+## Call:
+## mle2(minuslogl = NLL, start = list(a = 1, h = 1))
+## 
+## Coefficients:
+##       a       h 
+## 0.52652 0.01666 
+## 
+## Log-likelihood: -46.72&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;
+&lt;span class=&quot;co&quot;&gt;# a bit more information:&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;summary&lt;/span&gt;(fit)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## Maximum likelihood estimation
+## 
+## Call:
+## mle2(minuslogl = NLL, start = list(a = 1, h = 1))
+## 
+## Coefficients:
+##   Estimate Std. Error z value   Pr(z)    
+## a  0.52652    0.07112    7.40 1.3e-13 ***
+## h  0.01666    0.00488    3.41 0.00065 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## -2 log L: 93.44&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(fit)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;##       a       h 
+## 0.52652 0.01666&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here’s the curve associated with the most likely combination of a and &lt;code&gt;h&lt;/code&gt; (thick black line).&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;plot&lt;/span&gt;(ReedfrogFuncresp, &lt;span class=&quot;dt&quot;&gt;xlim =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;xaxs =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;i&amp;quot;&lt;/span&gt;)
+&lt;span class=&quot;kw&quot;&gt;curve&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;disk&lt;/span&gt;(x, &lt;span class=&quot;dt&quot;&gt;a =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(fit)[&lt;span class=&quot;st&quot;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;], &lt;span class=&quot;dt&quot;&gt;h =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(fit)[&lt;span class=&quot;st&quot;&gt;&amp;quot;h&amp;quot;&lt;/span&gt;]), &lt;span class=&quot;dt&quot;&gt;add =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;lwd =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;, 
+    &lt;span class=&quot;dt&quot;&gt;from =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;to =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/h7.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;The rethinking package has a few convenient functions for summarizing and visualizing the output of an mle2 object. It’s not on CRAN, but you can get it from the author’s website or &lt;a href=&quot;https://github.com/rmcelreath/rethinking&quot;&gt;from github.&lt;/a&gt;&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;library&lt;/span&gt;(rethinking)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## Attaching package: &amp;#39;rethinking&amp;#39;
+## 
+## The following object is masked _by_ &amp;#39;.GlobalEnv&amp;#39;:
+## 
+## x&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;precis&lt;/span&gt;(fit)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;##   Estimate S.E. 2.5% 97.5%
+## a     0.53 0.07 0.39  0.67
+## h     0.02 0.00 0.01  0.03&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can also visualize a distribution of estimates that are reasonably consistent with the observed data using the sample.naive.posterior function:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;plot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;sample.naive.posterior&lt;/span&gt;(fit), &lt;span class=&quot;dt&quot;&gt;pch =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;.&amp;quot;&lt;/span&gt;)
+
+&lt;span class=&quot;co&quot;&gt;# Add a red dot for the maximum likelihood estimate:&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;points&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.data.frame&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.list&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(fit))), &lt;span class=&quot;dt&quot;&gt;col =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;pch =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;20&lt;/span&gt;)
+
+&lt;span class=&quot;co&quot;&gt;# Add a blue dot for our earlier guess:&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;points&lt;/span&gt;(&lt;span class=&quot;fl&quot;&gt;0.5&lt;/span&gt;, &lt;span class=&quot;fl&quot;&gt;0.02&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;col =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;pch =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;20&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/h9.png&quot; /&gt;
+&lt;/div&gt;
+&lt;hr /&gt;
+&lt;h3 id=&quot;a-big-digression-about-confidence-intervals&quot;&gt;A Big digression about confidence intervals&lt;/h3&gt;
+&lt;p&gt;Our earlier guess falls inside the cloud of points, so even though it’s not as good as the red point, it’s still plausibly consistent with the data.&lt;/p&gt;
+&lt;p&gt;Note that the ranges of plausible estimates for the two coefficients are correlated: This makes sense if you think about it: if the attack rate is high, then there needs to be a large handling time between attacks or else too many frogs would get eaten.&lt;/p&gt;
+&lt;p&gt;Where did this distribution of points come from? &lt;code&gt;mle2&lt;/code&gt; objects, like many models in R, have a variance/covariance matrix that can be extracted with the vcov() function.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;vcov&lt;/span&gt;(fit)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;##           a         h
+## a 0.0050584 2.859e-04
+## h 0.0002859 2.384e-05&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The variance terms (along the diagonal) describe mle2’s uncertainty about the values. The covariance terms (other entries in the matrix) describe how uncertainty in one coefficient relates to uncertainty in the other coefficient.&lt;/p&gt;
+&lt;p&gt;This graph gives an example:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;curve&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;dnorm&lt;/span&gt;(x, &lt;span class=&quot;dt&quot;&gt;sd =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;/&lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;from =&lt;/span&gt; -&lt;span class=&quot;dv&quot;&gt;5&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;to =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;5&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;ylab =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;likelihood&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;xlab =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;estimate&amp;quot;&lt;/span&gt;)
+&lt;span class=&quot;kw&quot;&gt;curve&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;dnorm&lt;/span&gt;(x, &lt;span class=&quot;dt&quot;&gt;sd =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;3&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;add =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;col =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/h11.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;The black curve shows a model with low variance for its estimate. This means that the likelihood would fall off quickly if we tried a bad estimate, and we can be reasonably sure that the data was generated by a value in a fairly narrow range. The model associated with the red curve is much less certain: the parameter could be very different from the optimal value and the likelihood wouldn’t drop much.&lt;/p&gt;
+&lt;p&gt;Here’s another way to visualize the decline in likelihood as you move away from the best estimate:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;plot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;profile&lt;/span&gt;(fit))&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/h12.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Keep in mind that all of this is based on a Gaussian approximation. It works well when you have lots of data and you aren’t estimating something near a boundary. Since &lt;code&gt;h&lt;/code&gt; is near its minimum value (at zero), there’s some risk that the confidence intervals are inaccurate. Markov chain Monte Carlo can provide more accurate estimates, but it’s also slower to run.&lt;/p&gt;
+&lt;h4 id=&quot;a-somewhat-related-digression&quot;&gt;A somewhat-related digression:&lt;/h4&gt;
+&lt;p&gt;Where does the vcov matrix come from? From a matrix called the Hessian. It describes the curvature of the likelihood surface, i.e. how quickly the log-likelihood falls off as you move away from the optimum.&lt;/p&gt;
+&lt;p&gt;Sometimes the Hessian is hard to estimate and causes problems, so we can run the model without it:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;fit.without.hessian =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;mle2&lt;/span&gt;(NLL, &lt;span class=&quot;dt&quot;&gt;start =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;a =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;h =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;skip.hessian =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When there’s no Hessian, there aren’t any confidence intervals, though.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;precis&lt;/span&gt;(fit.without.hessian)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;##   Estimate S.E. 2.5% 97.5%
+## a     0.53   NA   NA    NA
+## h     0.02   NA   NA    NA&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(End digression)&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3 id=&quot;more-about-mle2&quot;&gt;More about &lt;code&gt;mle2&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Under the hood, &lt;code&gt;mle2&lt;/code&gt; uses a function called optim:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;st&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;`&lt;/span&gt;(optim)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It’s worth noting that most of the optimization methods used in optim (and therefore in &lt;code&gt;mle2&lt;/code&gt;) only do a local optimization. So if your likelihood surface has multiple peaks, you may not find the right one.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mle2&lt;/code&gt; also has a convenient formula inferface that can eliminate the need to write a whole likelihood function from scratch. Let’s take a look with some data found in ?mle2&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;x =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;:&lt;span class=&quot;dv&quot;&gt;10&lt;/span&gt;
+y =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dv&quot;&gt;26&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;17&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;13&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;12&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;20&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;5&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;9&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;8&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;5&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;8&lt;/span&gt;)
+d =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;data.frame&lt;/span&gt;(x, y)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here, we’re fitting a Poisson model that depends on an intercept term plus a linear term. The &lt;code&gt;exp()&lt;/code&gt; is mainly there to make sure that the value of lambda doesn’t go negative, which isn’t allowed (it would imply a negative number of occurrences for our outcome of interest).&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;fit0 =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;mle2&lt;/span&gt;(y ~&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;dpois&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;lambda =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(intercept +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;slope *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;x)), &lt;span class=&quot;dt&quot;&gt;start =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;intercept =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;mean&lt;/span&gt;(y), 
+    &lt;span class=&quot;dt&quot;&gt;slope =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;data =&lt;/span&gt; d)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note that mle2 finds its values for x and y from the &lt;code&gt;data&lt;/code&gt; term and that we’re giving it starting values for the slope and intercept. In general, it’s useful to start the intercept at the mean value of y and the slope terms at 0, but it often won’t matter much.&lt;/p&gt;
+&lt;h3 id=&quot;prior-information&quot;&gt;Prior information&lt;/h3&gt;
+&lt;p&gt;Recall that our estimates of a and &lt;code&gt;h&lt;/code&gt; are positively correlated: the data could be consistent with either a high attack rate and a high handling time OR with a low attack rate and a low handling time.&lt;/p&gt;
+&lt;p&gt;Suppose we have prior information about tadpole/dragonfly biology that suggests that these parameters should be on the low end. We can encode this prior information as a prior distribution on the parameters. Then mle2 won’t climb the likelihood surface. It will climb the surface of the Bayesian posterior (or if you’re frequentist, it will do a penalized or constrained optimization of the likelihood).&lt;/p&gt;
+&lt;p&gt;Here’s a negative log posterior that tries to keep the values of &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;h&lt;/code&gt; small while still being consistent with the data:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;negative.log.posterior =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;function(a, h) {
+    &lt;span class=&quot;kw&quot;&gt;NLL&lt;/span&gt;(a, h) -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;dexp&lt;/span&gt;(a, &lt;span class=&quot;dt&quot;&gt;rate =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;10&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;log =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;) -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;dexp&lt;/span&gt;(h, &lt;span class=&quot;dt&quot;&gt;rate =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;10&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;log =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We optimize it exactly as before&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;fit2 =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;mle2&lt;/span&gt;(negative.log.posterior, &lt;span class=&quot;dt&quot;&gt;start =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;a =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;h =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Sure enough, the coefficients are a bit smaller&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(fit)  &lt;span class=&quot;co&quot;&gt;# MLE&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;##       a       h 
+## 0.52652 0.01666&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(fit2)  &lt;span class=&quot;co&quot;&gt;# MAP estimate&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;##       a       h 
+## 0.47931 0.01375&lt;/code&gt;&lt;/pre&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Dave Harris on Maximum Likelihood Estimation</title>
+   <link href="http://www.noamross.net/blog/2013/6/17/harrisbbmle.html"/>
+   <updated>2013-06-17T15:11:17-07:00</updated>
+   <id>hhttp://www.noamross.net/blog/2013/6/17/harrisbbmle</id>
+   <content type="html">&lt;head&gt;
+  &lt;style type=&quot;text/css&quot;  media=&quot;all&quot;&gt;
+    table tbody {border-top:2px; border-bottom:2px;}
+    table thead {border-bottom:1px;}
+  &lt;/style&gt;
+&lt;/head&gt; &lt;p&gt;Editor’s Note: &lt;em&gt;At our last &lt;a href=&quot;http://www.noamross.net/davis-r-users-group.html&quot;&gt;Davis R Users’ Group&lt;/a&gt; meeting of the quarter, &lt;strong&gt;&lt;a href=&quot;https://sihlab.wordpress.com/david-j-harris/&quot;&gt;Dave Harris&lt;/a&gt;&lt;/strong&gt; gave a talk on how to use the &lt;code&gt;bbmle&lt;/code&gt; package to fit mechanistic models to ecological data. Here are his script and notes (helpfully generated with the the &lt;code&gt;spin&lt;/code&gt; function in &lt;code&gt;knitr&lt;/code&gt;&lt;/em&gt;).&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;co&quot;&gt;# Load data&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;library&lt;/span&gt;(emdbook)
+&lt;span class=&quot;kw&quot;&gt;library&lt;/span&gt;(bbmle)
+&lt;span class=&quot;kw&quot;&gt;data&lt;/span&gt;(ReedfrogFuncresp)
+&lt;span class=&quot;kw&quot;&gt;plot&lt;/span&gt;(ReedfrogFuncresp, &lt;span class=&quot;dt&quot;&gt;xlim =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;xaxs =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;i&amp;quot;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/unnamed-chunk-1.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Statistical models are stories about how the data came to be. The deterministic part of the story is a (slightly mangled) version of what you’d expect if the predators followed a Type II functional response:&lt;/p&gt;
+&lt;p&gt;Holling’s Disk equation for Type II Functional Response&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;a&lt;/code&gt; is attack rate&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;h&lt;/code&gt; is handling time&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;disk =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;function(N, a, h) {
+    N *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;a/(&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;N *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;a *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;h)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can plot different values of &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;h&lt;/code&gt; to see what kinds of data this model would generate &lt;em&gt;on average:&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;plot&lt;/span&gt;(ReedfrogFuncresp, &lt;span class=&quot;dt&quot;&gt;xlim =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;xaxs =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;i&amp;quot;&lt;/span&gt;)
+&lt;span class=&quot;co&quot;&gt;# a = 3, h = 0.05 (black) rises too quickly, saturates too quickly&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;curve&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;disk&lt;/span&gt;(x, &lt;span class=&quot;dt&quot;&gt;a =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;3&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;h =&lt;/span&gt; &lt;span class=&quot;fl&quot;&gt;0.05&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;add =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;from =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;to =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;)
+&lt;span class=&quot;co&quot;&gt;# a = 2, h = 0.02 (red) still rises too quickly&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;curve&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;disk&lt;/span&gt;(x, &lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;, &lt;span class=&quot;fl&quot;&gt;0.02&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;add =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;from =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;to =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;col =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;)
+&lt;span class=&quot;co&quot;&gt;# a = 0.5, h = 0.02 (blue) looks like a plausible data-generating process&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;curve&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;disk&lt;/span&gt;(x, &lt;span class=&quot;fl&quot;&gt;0.5&lt;/span&gt;, &lt;span class=&quot;fl&quot;&gt;0.02&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;add =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;from =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;to =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;col =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/unnamed-chunk-3.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;The blue curve looks plausible, but is it optimal? Does it tell the best possible story about how the data could have been generated?&lt;/p&gt;
+&lt;p&gt;In order to tell if it’s optimal, we need to pick something to optimize. Usually, that will be the log-likelihood–i.e. the log-probability that the data would have come out this way if the model were true. Models with higher probabilities of generating the data we observed therefore have higher likelihoods. For various arbitrary reasons, it’s common to minimize the negative log-likelihood rather than maximizing the positive log-likelihood. So let’s write a function that says what the log-likelihood is for a given pair of &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;h&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The log-likelihood is the sum of log-probabilities from each data point. The log-probability for a data point is (in this contrived example) drawn from a binomial (“coin flip”) distribution, whose mean is determined by the disk equation.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;NLL =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;function(a, h) {
+    -&lt;span class=&quot;kw&quot;&gt;sum&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;dbinom&lt;/span&gt;(ReedfrogFuncresp$Killed, &lt;span class=&quot;dt&quot;&gt;size =&lt;/span&gt; ReedfrogFuncresp$Initial, &lt;span class=&quot;dt&quot;&gt;prob =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;disk&lt;/span&gt;(ReedfrogFuncresp$Initial, 
+        a, h)/ReedfrogFuncresp$Initial, &lt;span class=&quot;dt&quot;&gt;log =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can optimize the model with the mle2 function. It finds the lowest value for the negative log-likelihood (i.e. the combination of parameters with the highest positive likelihood, or the maximum likelihood estimate).&lt;/p&gt;
+&lt;p&gt;The NLL function we defined above requires starting values for &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;h&lt;/code&gt;. Let’s naively start them at 1, 1&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;fit =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;mle2&lt;/span&gt;(NLL, &lt;span class=&quot;dt&quot;&gt;start =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;a =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;h =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You’ll probably get lots of warnings about NaNs. That’s just the optimization procedure complaining because it occasionally tries something impossible (such as a set of parameters that would generate a negative probability of being eaten). In general, these warnings are nothing to worry about, since the optimization procedure will just try better values. But it’s worth checking to make sure that there are no other warnings or problems by calling &lt;code&gt;warnings()&lt;/code&gt; after you fit the model.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;co&quot;&gt;# print out the results&lt;/span&gt;
+fit&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## 
+## Call:
+## mle2(minuslogl = NLL, start = list(a = 1, h = 1))
+## 
+## Coefficients:
+##       a       h 
+## 0.52652 0.01666 
+## 
+## Log-likelihood: -46.72&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;
+&lt;span class=&quot;co&quot;&gt;# a bit more information:&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;summary&lt;/span&gt;(fit)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## Length  Class   Mode 
+##      1   mle2     S4&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(fit)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;##       a       h 
+## 0.52652 0.01666&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here’s the curve associated with the most likely combination of a and &lt;code&gt;h&lt;/code&gt; (thick black line).&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;plot&lt;/span&gt;(ReedfrogFuncresp, &lt;span class=&quot;dt&quot;&gt;xlim =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;xaxs =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;i&amp;quot;&lt;/span&gt;)
+&lt;span class=&quot;kw&quot;&gt;curve&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;disk&lt;/span&gt;(x, &lt;span class=&quot;dt&quot;&gt;a =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(fit)[&lt;span class=&quot;st&quot;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;], &lt;span class=&quot;dt&quot;&gt;h =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(fit)[&lt;span class=&quot;st&quot;&gt;&amp;quot;h&amp;quot;&lt;/span&gt;]), &lt;span class=&quot;dt&quot;&gt;add =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;lwd =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;, 
+    &lt;span class=&quot;dt&quot;&gt;from =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;to =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/unnamed-chunk-7.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;The rethinking package has a few convenient functions for summarizing and visualizing the output of an mle2 object. It’s not on CRAN, but you can get it from the author’s website or &lt;a href=&quot;https://github.com/rmcelreath/rethinking&quot;&gt;from github.&lt;/a&gt;&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;library&lt;/span&gt;(rethinking)
+&lt;span class=&quot;kw&quot;&gt;precis&lt;/span&gt;(fit)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;##   Estimate S.E. 2.5% 97.5%
+## a     0.53 0.07 0.39  0.67
+## h     0.02 0.00 0.01  0.03&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can also visualize a distribution of estimates that are reasonably consistent with the observed data using the sample.naive.posterior function:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;plot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;sample.naive.posterior&lt;/span&gt;(fit), &lt;span class=&quot;dt&quot;&gt;pch =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;.&amp;quot;&lt;/span&gt;)
+
+&lt;span class=&quot;co&quot;&gt;# Add a red dot for the maximum likelihood estimate:&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;points&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.data.frame&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.list&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(fit))), &lt;span class=&quot;dt&quot;&gt;col =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;pch =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;20&lt;/span&gt;)
+
+&lt;span class=&quot;co&quot;&gt;# Add a blue dot for our earlier guess:&lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;points&lt;/span&gt;(&lt;span class=&quot;fl&quot;&gt;0.5&lt;/span&gt;, &lt;span class=&quot;fl&quot;&gt;0.02&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;col =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;pch =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;20&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/unnamed-chunk-9.png&quot; /&gt;
+&lt;/div&gt;
+&lt;hr /&gt;
+&lt;h3 id=&quot;a-big-digression-about-confidence-intervals&quot;&gt;A Big digression about confidence intervals&lt;/h3&gt;
+&lt;p&gt;Our earlier guess falls inside the cloud of points, so even though it’s not as good as the red point, it’s still plausibly consistent with the data.&lt;/p&gt;
+&lt;p&gt;Note that the ranges of plausible estimates for the two coefficients are correlated: This makes sense if you think about it: if the attack rate is high, then there needs to be a large handling time between attacks or else too many frogs would get eaten.&lt;/p&gt;
+&lt;p&gt;Where did this distribution of points come from? &lt;code&gt;mle2&lt;/code&gt; objects, like many models in R, have a variance/covariance matrix that can be extracted with the vcov() function.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;vcov&lt;/span&gt;(fit)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;##           a         h
+## a 0.0050584 2.859e-04
+## h 0.0002859 2.384e-05&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The variance terms (along the diagonal) describe mle2’s uncertainty about the values. The covariance terms (other entries in the matrix) describe how uncertainty in one coefficient relates to uncertainty in the other coefficient.&lt;/p&gt;
+&lt;p&gt;This graph gives an example:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;curve&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;dnorm&lt;/span&gt;(x, &lt;span class=&quot;dt&quot;&gt;sd =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;/&lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;from =&lt;/span&gt; -&lt;span class=&quot;dv&quot;&gt;5&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;to =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;5&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;ylab =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;likelihood&amp;quot;&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;xlab =&lt;/span&gt; &lt;span class=&quot;st&quot;&gt;&amp;quot;estimate&amp;quot;&lt;/span&gt;)
+&lt;span class=&quot;kw&quot;&gt;curve&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;dnorm&lt;/span&gt;(x, &lt;span class=&quot;dt&quot;&gt;sd =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;3&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;add =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;col =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/unnamed-chunk-11.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;The black curve shows a model with low variance for its estimate. This means that the likelihood would fall off quickly if we tried a bad estimate, and we can be reasonably sure that the data was generated by a value in a fairly narrow range. The model associated with the red curve is much less certain: the parameter could be very different from the optimal value and the likelihood wouldn’t drop much.&lt;/p&gt;
+&lt;p&gt;Here’s another way to visualize the decline in likelihood as you move away from the best estimate:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;plot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;profile&lt;/span&gt;(fit))&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/unnamed-chunk-12.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Keep in mind that all of this is based on a Gaussian approximation. It works well when you have lots of data and you aren’t estimating something near a boundary. Since &lt;code&gt;h&lt;/code&gt; is near its minimum value (at zero), there’s some risk that the confidence intervals are inaccurate. Markov chain Monte Carlo can provide more accurate estimates, but it’s also slower to run.&lt;/p&gt;
+&lt;h4 id=&quot;a-somewhat-related-digression&quot;&gt;A somewhat-related digression:&lt;/h4&gt;
+&lt;p&gt;Where does the vcov matrix come from? From a matrix called the Hessian. It describes the curvature of the likelihood surface, i.e. how quickly the log-likelihood falls off as you move away from the optimum.&lt;/p&gt;
+&lt;p&gt;Sometimes the Hessian is hard to estimate and causes problems, so we can run the model without it:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;fit.without.hessian =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;mle2&lt;/span&gt;(NLL, &lt;span class=&quot;dt&quot;&gt;start =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;a =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;h =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;skip.hessian =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When there’s no Hessian, there aren’t any confidence intervals, though.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;precis&lt;/span&gt;(fit.without.hessian)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;##   Estimate S.E. 2.5% 97.5%
+## a     0.53   NA   NA    NA
+## h     0.02   NA   NA    NA&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(End digression)&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3 id=&quot;more-about-mle2&quot;&gt;More about &lt;code&gt;mle2&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Under the hood, &lt;code&gt;mle2&lt;/code&gt; uses a function called optim:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;st&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;dt&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;`&lt;/span&gt;(optim)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It’s worth noting that most of the optimization methods used in optim (and therefore in &lt;code&gt;mle2&lt;/code&gt;) only do a local optimization. So if your likelihood surface has multiple peaks, you may not find the right one.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mle2&lt;/code&gt; also has a convenient formula inferface that can eliminate the need to write a whole likelihood function from scratch. Let’s take a look with some data found in ?mle2&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;x =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;:&lt;span class=&quot;dv&quot;&gt;10&lt;/span&gt;
+y =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dv&quot;&gt;26&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;17&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;13&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;12&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;20&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;5&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;9&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;8&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;5&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;8&lt;/span&gt;)
+d =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;data.frame&lt;/span&gt;(x, y)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here, we’re fitting a Poisson model that depends on an intercept term plus a linear term. The &lt;code&gt;exp()&lt;/code&gt; is mainly there to make sure that the value of lambda doesn’t go negative, which isn’t allowed (it would imply a negative number of occurrences for our outcome of interest).&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;fit0 =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;mle2&lt;/span&gt;(y ~&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;dpois&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;lambda =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(intercept +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;slope *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;x)), &lt;span class=&quot;dt&quot;&gt;start =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;intercept =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;mean&lt;/span&gt;(y), 
+    &lt;span class=&quot;dt&quot;&gt;slope =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;data =&lt;/span&gt; d)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note that mle2 finds its values for x and y from the &lt;code&gt;data&lt;/code&gt; term and that we’re giving it starting values for the slope and intercept. In general, it’s useful to start the intercept at the mean value of y and the slope terms at 0, but it often won’t matter much.&lt;/p&gt;
+&lt;h3 id=&quot;prior-information&quot;&gt;Prior information&lt;/h3&gt;
+&lt;p&gt;Recall that our estimates of a and &lt;code&gt;h&lt;/code&gt; are positively correlated: the data could be consistent with either a high attack rate and a high handling time OR with a low attack rate and a low handling time.&lt;/p&gt;
+&lt;p&gt;Suppose we have prior information about tadpole/dragonfly biology that suggests that these parameters should be on the low end. We can encode this prior information as a prior distribution on the parameters. Then mle2 won’t climb the likelihood surface. It will climb the surface of the Bayesian posterior (or if you’re frequentist, it will do a penalized or constrained optimization of the likelihood).&lt;/p&gt;
+&lt;p&gt;Here’s a negative log posterior that tries to keep the values of &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;h&lt;/code&gt; small while still being consistent with the data:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;negative.log.posterior =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;function(a, h) {
+    &lt;span class=&quot;kw&quot;&gt;NLL&lt;/span&gt;(a, h) -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;dexp&lt;/span&gt;(a, &lt;span class=&quot;dt&quot;&gt;rate =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;10&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;log =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;) -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;dexp&lt;/span&gt;(h, &lt;span class=&quot;dt&quot;&gt;rate =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;10&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;log =&lt;/span&gt; &lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We optimize it exactly as before&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;fit2 =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;mle2&lt;/span&gt;(negative.log.posterior, &lt;span class=&quot;dt&quot;&gt;start =&lt;/span&gt; &lt;span class=&quot;kw&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;a =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;h =&lt;/span&gt; &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced Warning: NaNs produced Warning: NaNs produced
+## Warning: NaNs produced&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Sure enough, the coefficients are a bit smaller&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(fit)  &lt;span class=&quot;co&quot;&gt;# MLE&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;##       a       h 
+## 0.52652 0.01666&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;coef&lt;/span&gt;(fit2)  &lt;span class=&quot;co&quot;&gt;# MAP estimate&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;##       a       h 
+## 0.47931 0.01375&lt;/code&gt;&lt;/pre&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>The null model for age effects with overdispersed infection</title>
+   <link href="http://www.noamross.net/blog/2013/6/12/multi-infection-overdispersed.html"/>
+   <updated>2013-06-12T17:32:30-07:00</updated>
+   <id>hhttp://www.noamross.net/blog/2013/6/12/multi-infection-overdispersed</id>
+   <content type="html">&lt;head&gt;
+  &lt;style type=&quot;text/css&quot;  media=&quot;all&quot;&gt;
+    table tbody {border-top:2px; border-bottom:2px;}
+    table thead {border-bottom:1px;}
+  &lt;/style&gt;
+&lt;/head&gt; &lt;p&gt;How does overdispersion of infections affect the behavior of the &lt;a href=&quot;http://www.noamross.net/blog/2013/6/11/multi-infection-tests.html&quot;&gt;multiple-infection model&lt;/a&gt;? I redefine the model to account for overdispersion, assuming the same overdispersion occurs in both age classes. The parameter &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline k&quot; alt=&quot;k&quot; /&gt;&lt;/span&gt; varies inversely with the degree of overdispersion. Again, the classes are demographically identical, and infection affects mortality but not growth:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;\[\begin{aligned}
+  \frac{dJ}{dt}  &amp;amp;= A f_A \left(1 - \frac{J+A}{K} \right) + J  \left(f_J \left(1 - \frac{J+A}{K} \right) - d_J - g\right) - \alpha P_J \\
+  \frac{dA}{dt}  &amp;amp;= J g - A d_A - \alpha P_A \\
+  \frac{dP_J}{dt}  &amp;amp;= \lambda  \frac{J}{K} (P_J + P_A)  - P_J \left(d_J + \mu + g + \alpha \left(1 + \frac{(k+1)P_J}{kJ} \right) \right) \\
+  \frac{dP_A}{dt}  &amp;amp;= \lambda  \frac{J}{K} (P_J + P_A)  + P_J  g - PA \left(d_A + \mu + \alpha \left(1 + \frac{(k+1)P_A}{kA}  \right) \right)
+\end{aligned}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;I define the model and run it in R below, using values of &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline k&quot; alt=&quot;k&quot; /&gt;&lt;/span&gt; ranging from 0.01 to 10. Otherwise all parameters and conditions are the same as in my &lt;a href=&quot;http://www.noamross.net/blog/2013/6/11/multi-infection-tests.html&quot;&gt;last post&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;od.model &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;function(t, y, parms) {
+  &lt;span class=&quot;kw&quot;&gt;list2env&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.list&lt;/span&gt;(y), &lt;span class=&quot;kw&quot;&gt;environment&lt;/span&gt;())
+  &lt;span class=&quot;kw&quot;&gt;list2env&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.list&lt;/span&gt;(parms), &lt;span class=&quot;kw&quot;&gt;environment&lt;/span&gt;())
+  dJ &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A*f_a*(&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(J+A)/K) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(f_j*(&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(J+A)/K) -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;d_j -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;g) -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;alpha *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PJ
+  dA &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J*g -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(A *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;d_a) -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;alpha *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA
+  dPJ &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;lambda *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(PJ +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA) *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J/K -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;         &lt;/span&gt;PJ*(d_j +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;mu +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;g +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;alpha*(&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(k&lt;span class=&quot;dv&quot;&gt;+1&lt;/span&gt;)*PJ/(k*J)))
+  dPA &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;lambda *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(PJ +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA) *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A/K +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PJ *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;g -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;         &lt;/span&gt;PA*(d_a +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;mu +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;alpha*(&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(k&lt;span class=&quot;dv&quot;&gt;+1&lt;/span&gt;)*PA/(k*A)))
+  &lt;span class=&quot;kw&quot;&gt;return&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;dJ=&lt;/span&gt;dJ, &lt;span class=&quot;dt&quot;&gt;dA=&lt;/span&gt;dA, &lt;span class=&quot;dt&quot;&gt;dPJ=&lt;/span&gt;dPJ, &lt;span class=&quot;dt&quot;&gt;dPA=&lt;/span&gt;dPA), 
+              &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;dJ=&lt;/span&gt;dJ, &lt;span class=&quot;dt&quot;&gt;dA=&lt;/span&gt;dA, &lt;span class=&quot;dt&quot;&gt;dPJ=&lt;/span&gt;dPJ, &lt;span class=&quot;dt&quot;&gt;dPA=&lt;/span&gt;dPA)))
+}
+
+parms &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;( 
+  &lt;span class=&quot;dt&quot;&gt;f_j=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.01&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;f_a=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.01&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;g=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.1&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;d_j=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.005&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;d_a=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.005&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;alpha=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.05&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;lambda=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.3&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;K=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;50&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;mu=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.00&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;k=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.000&lt;/span&gt;
+  )
+
+A_ss =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;with&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.list&lt;/span&gt;(parms), K/(d_a/g +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;))
+J_ss =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;with&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.list&lt;/span&gt;(parms), K -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A_ss)
+init &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;J=&lt;/span&gt;J_ss, &lt;span class=&quot;dt&quot;&gt;A=&lt;/span&gt;A_ss, &lt;span class=&quot;dt&quot;&gt;PJ=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.1&lt;/span&gt;*J_ss, &lt;span class=&quot;dt&quot;&gt;PA=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.1&lt;/span&gt;*A_ss)
+
+&lt;span class=&quot;kw&quot;&gt;require&lt;/span&gt;(deSolve)
+&lt;span class=&quot;kw&quot;&gt;require&lt;/span&gt;(reshape2)
+&lt;span class=&quot;kw&quot;&gt;require&lt;/span&gt;(plyr)
+ks &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dv&quot;&gt;10&lt;/span&gt;, &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;fl&quot;&gt;0.1&lt;/span&gt;, &lt;span class=&quot;fl&quot;&gt;0.01&lt;/span&gt;)
+df &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;adply&lt;/span&gt;(ks, &lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;, function(x) {
+  parms[&lt;span class=&quot;st&quot;&gt;&amp;quot;k&amp;quot;&lt;/span&gt;] &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;x
+  df &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;data.frame&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;k.val=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;as.factor&lt;/span&gt;(x), 
+                   &lt;span class=&quot;kw&quot;&gt;as.data.frame&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;lsoda&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;init, &lt;span class=&quot;dt&quot;&gt;times=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;:&lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;func=&lt;/span&gt;od.model, 
+                                       &lt;span class=&quot;dt&quot;&gt;parms=&lt;/span&gt;parms)))
+  })
+
+&lt;span class=&quot;kw&quot;&gt;names&lt;/span&gt;(df)[&lt;span class=&quot;kw&quot;&gt;names&lt;/span&gt;(df)==&lt;span class=&quot;st&quot;&gt;&amp;quot;time&amp;quot;&lt;/span&gt;] &amp;lt;-&lt;span class=&quot;st&quot;&gt; &amp;quot;Time&amp;quot;&lt;/span&gt;
+df$X1 &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;NULL&lt;/span&gt;
+
+df &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;within&lt;/span&gt;(df, {
+  &lt;span class=&quot;kw&quot;&gt;list2env&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.list&lt;/span&gt;(parms), &lt;span class=&quot;kw&quot;&gt;environment&lt;/span&gt;())
+  pctJ &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J/(J +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A)
+  pctA &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A/(J +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A)
+  nJ &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PJ /&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J
+  nA &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA /&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A
+  J.inf &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(-nJ)
+  A.inf &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(-nA)
+  Inf.dens &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(J*J.inf +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A*A.inf)
+  J.mort &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;d_j +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;alpha *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PJ /&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(J *J.inf)
+  A.mort &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;d_a +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;alpha *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA /&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(A *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A.inf)
+  J.yrs &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;/J.mort
+  A.yrs &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;/A.mort
+  J.infrate &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(-lambda *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(PJ +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA) *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(-PJ/J) /&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;K)
+  A.infrate &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(-lambda *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(PJ +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA) *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(-PA/A) /&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;K)
+  J.infyrs &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;/J.infrate
+  A.infyrs &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;/A.infrate
+  &lt;span class=&quot;kw&quot;&gt;rm&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;list=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;names&lt;/span&gt;(parms))
+})
+
+df &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;df[,&lt;span class=&quot;kw&quot;&gt;sort&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;names&lt;/span&gt;(df), &lt;span class=&quot;dt&quot;&gt;decreasing=&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;)]
+
+mdf &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;melt&lt;/span&gt;(df, &lt;span class=&quot;dt&quot;&gt;id.vars=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Time&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;Inf.dens&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;k.val&amp;quot;&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;variable.name=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;Class&amp;quot;&lt;/span&gt;,
+            &lt;span class=&quot;dt&quot;&gt;value.name=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;Population&amp;quot;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now I plot the results. In all of the following the darker lines represent the case with more overdispersion, and the lighter case are closer to random distribution of infections.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;require&lt;/span&gt;(ggplot2)
+&lt;span class=&quot;kw&quot;&gt;require&lt;/span&gt;(gridExtra)
+theme_nr &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;theme&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;legend.title=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;element_text&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;size=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;22&lt;/span&gt;),
+                             &lt;span class=&quot;dt&quot;&gt;legend.text=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;element_text&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;size=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;16&lt;/span&gt;),
+                             &lt;span class=&quot;dt&quot;&gt;legend.key.size=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;unit&lt;/span&gt;(.&lt;span class=&quot;dv&quot;&gt;75&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;cm&amp;quot;&lt;/span&gt;))
+JAlab &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;scale_color_discrete&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;labels=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Small Trees&amp;quot;&lt;/span&gt;,&lt;span class=&quot;st&quot;&gt;&amp;quot;Big Trees&amp;quot;&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;) 
+p1 &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;J&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;A&amp;quot;&lt;/span&gt;)), 
+             &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Time, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class, &lt;span class=&quot;dt&quot;&gt;alpha=&lt;/span&gt;k.val)) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;lwd=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Population&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab
+p2 &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;pctJ&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;pctA&amp;quot;&lt;/span&gt;)), 
+             &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Time, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class, &lt;span class=&quot;dt&quot;&gt;alpha=&lt;/span&gt;k.val)) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;lwd=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Fraction of Population&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab
+&lt;span class=&quot;kw&quot;&gt;grid.arrange&lt;/span&gt;(p1, p2, &lt;span class=&quot;dt&quot;&gt;nrow=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/multi-infection-overdispersed-unnamed-chunk-2.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;In general, overdispersion appears to reduce the decline of the population. This is because fewer, more heavily infected individuals carry more of the infections in the population, and take those away when they die. I wonder how biologically realistic is this in the case of SOD? Now I look at infection rates:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;p3 &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;PJ&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;PA&amp;quot;&lt;/span&gt;)),
+             &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Time, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class, &lt;span class=&quot;dt&quot;&gt;alpha=&lt;/span&gt;k.val)) +
+&lt;span class=&quot;st&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;lwd=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Number of Infections&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab
+p4 &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;nJ&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;nA&amp;quot;&lt;/span&gt;)),
+             &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Time, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class, &lt;span class=&quot;dt&quot;&gt;alpha=&lt;/span&gt;k.val)) +
+&lt;span class=&quot;st&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;lwd=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Infections per Individual&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab
+&lt;span class=&quot;kw&quot;&gt;grid.arrange&lt;/span&gt;(p3, p4, &lt;span class=&quot;dt&quot;&gt;nrow=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/multi-infection-overdispersed-unnamed-chunk-3.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;As you can see, the overall infections rate are lower in the case of overdispersion.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;J.inf&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;A.inf&amp;quot;&lt;/span&gt;)), 
+       &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Time, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class, &lt;span class=&quot;dt&quot;&gt;alpha=&lt;/span&gt;k.val)) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;geom_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;lwd=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Fraction infected&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/multi-infection-overdispersed-unnamed-chunk-4.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;The fraction of the population infected when there is some overdispersion is more in line with what is seen in the field in many cases.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;J.yrs&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;A.yrs&amp;quot;&lt;/span&gt;) ), 
+       &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Inf.dens, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class, &lt;span class=&quot;dt&quot;&gt;alpha=&lt;/span&gt;k.val)) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_point&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;cex=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;xlab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Number of infected trees&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Years to death of infected individuals&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/multi-infection-overdispersed-unnamed-chunk-5.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;With less infection, there’s less of a dramatic difference between the upswing and downswing of the disease, but the relationship between infected trees and years-to-death still holds.&lt;/p&gt;
+&lt;p&gt;In general, overdispersion seems to dampen the effects of infection, but most qualitative patterns remain.&lt;/p&gt;
+&lt;p&gt;In some ways, overdispersal has a similar effect to space in the Cobb et al. (2012) &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline SIR&quot; alt=&quot;SIR&quot; /&gt;&lt;/span&gt; model. Spatial structure, of course, is one mechanism that can create overdispersal.&lt;/p&gt;
+&lt;p&gt;Cobb, R. C., J. A. N. Filipe, R. K. Meentemeyer, C. A. Gilligan, and D. M. Rizzo. 2012. Ecosystem transformation by emerging infectious disease: loss of large tanoak from California forests. Journal of Ecology 100:712–722.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>A Null Model for Age Effects in Disease with Multiple Infections</title>
+   <link href="http://www.noamross.net/blog/2013/6/11/multi-infection-tests.html"/>
+   <updated>2013-06-11T17:32:30-07:00</updated>
+   <id>hhttp://www.noamross.net/blog/2013/6/11/multi-infection-tests</id>
+   <content type="html">&lt;head&gt;
+  &lt;style type=&quot;text/css&quot;  media=&quot;all&quot;&gt;
+    table tbody {border-top:2px; border-bottom:2px;}
+    table thead {border-bottom:1px;}
+  &lt;/style&gt;
+&lt;/head&gt; &lt;p&gt;&lt;em&gt;Here’s a little thought exercise I did that has caused me to go back and restart my Sudden Oak Death modeling in a new framework. Feedback welcome. I’m especially interested in relevant literature – I haven’t found many good examples of macroparasite/multiple infection models with age structure.&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Cobb et al. (2012) develop two models of forest stand demography in the face of Sudden Oak Death. The first, a statistical survival model, estimated the rates of infection and time-to-mortality as functions of density of infected trees and tree size. The second, an &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline SI&quot; alt=&quot;SI&quot; /&gt;&lt;/span&gt; model, projected stand composition over time using parameters from the first.&lt;/p&gt;
+&lt;p&gt;I’ve been realizing is that the observed data and the first model may not square with the second model. In an &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline SI&quot; alt=&quot;SI&quot; /&gt;&lt;/span&gt; model, all infected hosts are the same and, at least as implemented in this paper, infected trees have a constant rate of mortality. But if you look at the bottom-right portion of the figure below, you’ll see that the rate of mortality is strongly influenced by the number of infected hosts.&lt;/p&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/Cobb2012Fig2f.svg&quot; alt=&quot;Parts of Figure 1 from Cobb et al. (2012)&quot; /&gt;&lt;p class=&quot;caption&quot;&gt;Parts of Figure 1 from Cobb et al. (2012)&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;a href=&quot;https://sites.google.com/a/ucdavis.edu/richard-cobb/&quot;&gt;Richard&lt;/a&gt; and I discussed what might be driving this pattern, and think it might be due to the fact that trees can be infected mutiple times. &lt;em&gt;Phytophthora ramorum&lt;/em&gt; doesn’t travel throughout a tree once infecting, but instead causes local lesions on leaves and local cankers on stems. A tree can accumulate more of these as more spores land on it. Thus, it may not be appropriate to represent infection as a binary state.&lt;/p&gt;
+&lt;p&gt;It’s also possible that multiple infection is driving another pattern. The upper-right panel above shows that there are strong size effects on mortality. It’s certainly possible that larger (or older) trees are more physiologically vulnerable to the disease. However, I think part of this may be due to the fact that larger trees have been around longer, and thus have had more time to acquire infections.&lt;/p&gt;
+&lt;p&gt;I’m exploring these hypotheses using a model adapted from Anderson and May (1978). This is a macroparasite model that explicitly considers the number of parasites in each host. My model takes its basic structure and applies it to two explicit size classes of organisms, in this case applied to trees:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;\[\begin{aligned}
+  \frac{dJ}{dt}  &amp;amp;= A f_A \left(1 - \frac{J+A}{K} \right) + J  \left(f_J \left(1 - \frac{J+A}{K} \right) - d_J - g\right) - \alpha P_J \\
+  \frac{dA}{dt}  &amp;amp;= J g - A d_A - \alpha P_A \\
+  \frac{dP_J}{dt}  &amp;amp;= \lambda  \frac{J}{K} (P_J + P_A)  - P_J \left(d_J + \mu + g + \alpha \left(1 + \frac{P_J}{J} \right) \right) \\
+  \frac{dP_A}{dt}  &amp;amp;= \lambda  \frac{A}{K} (P_J + P_A)  + P_J  g - P_A \left(d_A + \mu + \alpha \left(1 + \frac{P_A}{A}  \right) \right)
+\end{aligned}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Here &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline J&quot; alt=&quot;J&quot; /&gt;&lt;/span&gt; and &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline A&quot; alt=&quot;A&quot; /&gt;&lt;/span&gt; are the population of juvenile and adult trees. There’s only two size classes for simplicity, though there’s no reason this can’t be extended to more. &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline P_J&quot; alt=&quot;P_J&quot; /&gt;&lt;/span&gt; and &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline P_A&quot; alt=&quot;P_A&quot; /&gt;&lt;/span&gt; are the total numbers of infections amongst those trees. Here’s a table of the parameters:&lt;/p&gt;
+&lt;table&gt;
+&lt;caption&gt;Model parameter definitions&lt;/caption&gt;
+&lt;thead&gt;
+&lt;tr class=&quot;header&quot;&gt;
+&lt;th align=&quot;center&quot;&gt;Parameter&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&quot;odd&quot;&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline f_J, f_J&quot; alt=&quot;f_J, f_J&quot; /&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Fecundity of the size class&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&quot;even&quot;&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline d_J, d_A&quot; alt=&quot;d_J, d_A&quot; /&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Mortality rate of the size class&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&quot;odd&quot;&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline g&quot; alt=&quot;g&quot; /&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Rate at which juveniles become adults&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&quot;even&quot;&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \alpha&quot; alt=&quot;\alpha&quot; /&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Amount by which a single infection increases the mortality rate&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&quot;odd&quot;&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \mu&quot; alt=&quot;\mu&quot; /&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Rate at which trees recover from infections (ignored here)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&quot;even&quot;&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline K&quot; alt=&quot;K&quot; /&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Carrying capacity&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&quot;odd&quot;&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \lambda&quot; alt=&quot;\lambda&quot; /&gt;&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Rate at which new infections are created by a single infection.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Some notes on the model: These equations assume that infections are completely randomly (Poisson) distributed amongst the hosts. This is unrealistic; due to spatial structure and other processes, the distribution is probably overdispersed. Secondly, unlike the Anderson and May (1978) model, there’s density dependence in recruitment of new juveniles – shading out of new recruits. Finally, transmission is density-dependent. I assume a spore’s chance of hitting a tree is proportional to the amount of space (carrying capacity) that the tree takes up.&lt;/p&gt;
+&lt;h2 id=&quot;parameterizing-and-running-the-model&quot;&gt;Parameterizing and Running the Model&lt;/h2&gt;
+&lt;p&gt;I define the equations and parameters in R:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;
+model &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;function(t, y, parms) {
+  &lt;span class=&quot;kw&quot;&gt;list2env&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.list&lt;/span&gt;(y), &lt;span class=&quot;kw&quot;&gt;environment&lt;/span&gt;())
+  &lt;span class=&quot;kw&quot;&gt;list2env&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.list&lt;/span&gt;(parms), &lt;span class=&quot;kw&quot;&gt;environment&lt;/span&gt;())
+  dJ &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A*f_a*(&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(J+A)/K) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(f_j*(&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(J+A)/K) -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;d_j -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;g) -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;alpha *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PJ
+  dA &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J*g -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(A *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;d_a) -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;alpha *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA
+  dPJ &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;lambda *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(PJ +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA) *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J/K -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PJ*(d_j +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;mu +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;g +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;alpha*(&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PJ/J))
+  dPA &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;lambda *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(PJ +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA) *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A/K +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PJ *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;g -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA*(d_a +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;mu +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;alpha*(&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA/A))
+  &lt;span class=&quot;kw&quot;&gt;return&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;dJ=&lt;/span&gt;dJ, &lt;span class=&quot;dt&quot;&gt;dA=&lt;/span&gt;dA, &lt;span class=&quot;dt&quot;&gt;dPJ=&lt;/span&gt;dPJ, &lt;span class=&quot;dt&quot;&gt;dPA=&lt;/span&gt;dPA), 
+              &lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;dJ=&lt;/span&gt;dJ, &lt;span class=&quot;dt&quot;&gt;dA=&lt;/span&gt;dA, &lt;span class=&quot;dt&quot;&gt;dPJ=&lt;/span&gt;dPJ, &lt;span class=&quot;dt&quot;&gt;dPA=&lt;/span&gt;dPA)))
+}
+
+parms &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;( 
+  &lt;span class=&quot;dt&quot;&gt;f_j=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.01&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;f_a=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.01&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;g=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.1&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;d_j=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.005&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;d_a=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.005&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;alpha=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.05&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;lambda=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.3&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;K=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;50&lt;/span&gt;,
+  &lt;span class=&quot;dt&quot;&gt;mu=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.00&lt;/span&gt;
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note from the parameters that here the juvenile and adult trees are exactly the same in their demographic variables, their contribution to density dependence and their response to disease. That is why I call this a “null model for age effects”; any differences between the behavior of the size classes will be due to structural effects of the model. Namely, that some trees carry disease as they move from juvenile to adult size class.&lt;/p&gt;
+&lt;p&gt;The parameters are selected to be somewhat realistic for tanoak and based on Cobb et al. (2012). Effectively, the juvenile class contains trees with &amp;lt;1 cm diameter and adults are anything larger. The carrying capacity (&lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline K=50&quot; alt=&quot;K=50&quot; /&gt;&lt;/span&gt;) is about equal to the stand density of many in the plots the Cobb et al. (2012) data set.&lt;/p&gt;
+&lt;p&gt;I initiate the model with tree populations at their disease-free steady state, and with an average of 0.1 infection per tree. Note that the steady state has a high proportion of adults due to the parameterization. Since density dependence in the model only affects recruitment of new juveniles, their population is limited by the natural death rate of adults.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;A_ss =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;with&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.list&lt;/span&gt;(parms), K/(d_a/g +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;))
+J_ss =&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;with&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.list&lt;/span&gt;(parms), K -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A_ss)
+init &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;J=&lt;/span&gt;J_ss, &lt;span class=&quot;dt&quot;&gt;A=&lt;/span&gt;A_ss, &lt;span class=&quot;dt&quot;&gt;PJ=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.1&lt;/span&gt;*J_ss, &lt;span class=&quot;dt&quot;&gt;PA=&lt;/span&gt;&lt;span class=&quot;fl&quot;&gt;0.1&lt;/span&gt;*A_ss)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now I run the model and calculate some relevant values that I’ll explain when I plot them:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;require&lt;/span&gt;(deSolve)
+&lt;span class=&quot;kw&quot;&gt;require&lt;/span&gt;(reshape2)
+out &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;as.data.frame&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;lsoda&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;init, &lt;span class=&quot;dt&quot;&gt;times=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;:&lt;span class=&quot;dv&quot;&gt;100&lt;/span&gt;, &lt;span class=&quot;dt&quot;&gt;func=&lt;/span&gt;model, &lt;span class=&quot;dt&quot;&gt;parms=&lt;/span&gt;parms))
+df &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;as.data.frame&lt;/span&gt;(out)
+&lt;span class=&quot;kw&quot;&gt;names&lt;/span&gt;(df)[&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;] &amp;lt;-&lt;span class=&quot;st&quot;&gt; &amp;quot;Time&amp;quot;&lt;/span&gt;
+
+df &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;within&lt;/span&gt;(df, {
+  &lt;span class=&quot;kw&quot;&gt;list2env&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;as.list&lt;/span&gt;(parms), &lt;span class=&quot;kw&quot;&gt;environment&lt;/span&gt;())
+  pctJ &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J/(J +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A)
+  pctA &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A/(J +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A)
+  nJ &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PJ /&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J
+  nA &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA /&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A
+  J.inf &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(-nJ)
+  A.inf &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(-nA)
+  Inf.dens &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(J*J.inf +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A*A.inf)
+  J.mort &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;d_j +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;alpha *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PJ /(J *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J.inf)
+  A.mort &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;d_a +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;alpha *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA /&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(A *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A.inf)
+  J.yrs &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;/J.mort
+  A.yrs &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;/A.mort
+  J.infrate &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(-lambda *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(PJ +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA) *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;J *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(-PJ/J) /&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;K)
+  A.infrate &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt; -&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(-lambda *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;(PJ +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;PA) *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;A *&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;exp&lt;/span&gt;(-PA/A) /&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;K)
+  J.infyrs &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;/J.infrate
+  A.infyrs &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;/A.infrate
+  &lt;span class=&quot;kw&quot;&gt;rm&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;list=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;names&lt;/span&gt;(parms))
+})
+
+df &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;df[,&lt;span class=&quot;kw&quot;&gt;sort&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;names&lt;/span&gt;(df), &lt;span class=&quot;dt&quot;&gt;decreasing=&lt;/span&gt;&lt;span class=&quot;ot&quot;&gt;TRUE&lt;/span&gt;)]
+
+mdf &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;melt&lt;/span&gt;(df, &lt;span class=&quot;dt&quot;&gt;id.vars=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Time&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;Inf.dens&amp;quot;&lt;/span&gt;), &lt;span class=&quot;dt&quot;&gt;variable.name=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;Class&amp;quot;&lt;/span&gt;,
+            &lt;span class=&quot;dt&quot;&gt;value.name=&lt;/span&gt;&lt;span class=&quot;st&quot;&gt;&amp;quot;Population&amp;quot;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;results-and-discussion&quot;&gt;Results and Discussion&lt;/h2&gt;
+&lt;p&gt;OK, so what does this look like? First, I plot the absolute and relative population sizes over time:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;require&lt;/span&gt;(ggplot2)
+&lt;span class=&quot;kw&quot;&gt;require&lt;/span&gt;(gridExtra)
+JAlab &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;scale_color_discrete&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;labels=&lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Small Trees&amp;quot;&lt;/span&gt;,&lt;span class=&quot;st&quot;&gt;&amp;quot;Big Trees&amp;quot;&lt;/span&gt;))
+p1 &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;J&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;A&amp;quot;&lt;/span&gt;)), 
+             &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Time, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class)) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;lwd=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Population&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab
+p2 &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;pctJ&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;pctA&amp;quot;&lt;/span&gt;)), 
+             &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Time, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class)) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;lwd=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Fraction of Population&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab
+&lt;span class=&quot;kw&quot;&gt;grid.arrange&lt;/span&gt;(p1, p2, &lt;span class=&quot;dt&quot;&gt;nrow=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/multi-infection-tests-unnamed-chunk-4.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;As in the &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline SI&quot; alt=&quot;SI&quot; /&gt;&lt;/span&gt; model, the population drops, but the relative proportion of juvenile trees goes up. This occurs even though the mortality effect of one infection is the same on both classes. However, this could also be due to the fact that with fewer trees, density dependence has less of an effect on recruitment. Let’s look at the prevalance of disease, overall and per-tree:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;p3 &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;PJ&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;PA&amp;quot;&lt;/span&gt;)),
+             &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Time, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class)) +
+&lt;span class=&quot;st&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;lwd=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Number of Infections&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab
+p4 &amp;lt;-&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;nJ&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;nA&amp;quot;&lt;/span&gt;)),
+             &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Time, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class)) +
+&lt;span class=&quot;st&quot;&gt;      &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;lwd=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Infections per Individual&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab
+&lt;span class=&quot;kw&quot;&gt;grid.arrange&lt;/span&gt;(p3, p4, &lt;span class=&quot;dt&quot;&gt;nrow=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;2&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/multi-infection-tests-unnamed-chunk-5.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Infection is considerably greater in the adult trees than the juveniles over the course of the epidemic. Since, for the most part, observqtions of SOD don’t count the number of infections, it might be easier to look at this in terms of the number of trees infected. If we continue to assume a Poisson distribution of infections, we can calculate the fraction of infected trees as&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;img src=&quot;http://latex.codecogs.com/png.latex?\frac{I}{N} = 1 - e^{-\frac{P_N}{N}}&quot; alt=&quot;\frac{I}{N} = 1 - e^{-\frac{P_N}{N}}&quot; /&gt;&lt;/div&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;with &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline N&quot; alt=&quot;N&quot; /&gt;&lt;/span&gt; being a stand-in for &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline J&quot; alt=&quot;J&quot; /&gt;&lt;/span&gt; or &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline A&quot; alt=&quot;A&quot; /&gt;&lt;/span&gt;.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;J.inf&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;A.inf&amp;quot;&lt;/span&gt;)), 
+       &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Time, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class)) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;kw&quot;&gt;geom_line&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;lwd=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;1&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Fraction infected&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/multi-infection-tests-unnamed-chunk-6.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Note that these curves are somewhat closer to each other. Without observing multiple infections per tree, we might think distributions of disease in each size class are more similar than they really are.&lt;/p&gt;
+&lt;p&gt;So how does mortality differ between the classes? I calculate the “observed” mortality rate as the total mortality rate of &lt;em&gt;only the diseased trees&lt;/em&gt;. This is:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;img src=&quot;http://latex.codecogs.com/png.latex?d + \frac{\alpha P_N}{N (1 - \left( e^{- \frac{P_N}{N}}\right)}&quot; alt=&quot;d + \frac{\alpha P_N}{N (1 - \left( e^{- \frac{P_N}{N}}\right)}&quot; /&gt;&lt;/div&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The inverse of this value is “Years to infection”, which is the value shown in the right-hand panels of the figure from Cobb et al. (2012) above. Here I plot the “Years to mortality” that would be observed for trees in the model against the number of total infected trees in the population:&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;J.yrs&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;A.yrs&amp;quot;&lt;/span&gt;) ), 
+       &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Inf.dens, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class)) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_point&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;cex=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;xlab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Number of infected trees&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Years to death of infected individuals&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/multi-infection-tests-unnamed-chunk-7.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;This plot is not quite equivalent to the lower-right panel in the figure from Cobb et al. (2012), because that shows a snapshot in time of many sites, while this shows the path of one site through time. Nonetheless, it shows that years-to-death has a negative relationship with the number of infected trees in this model, albeit a relationship that is state-dependent. That I can recreate this effect with this model suggests the multiple infection may drive this pattern.&lt;/p&gt;
+&lt;p&gt;Note that the mortality rate of both juveniles and adults start out the same (Years to death &lt;span class=&quot;math&quot;&gt;&lt;img style=&quot;vertical-align:middle&quot; src=&quot;http://latex.codecogs.com/png.latex?\inline \approx&quot; alt=&quot;\approx&quot; /&gt;&lt;/span&gt; 100), despite a higher adult population. I think ths means the difference of infection rates is not just due to a greater adult population, but due to the infections acquired by that class as more infected juveniles age into it.&lt;/p&gt;
+&lt;p&gt;The expression for the rate of infection of uninfected trees is:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math&quot;&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;img src=&quot;http://latex.codecogs.com/png.latex?\underbrace{1 - e^{-\left(\lambda (P_J + P_A) \frac{\overbrace{Ne^{(-P_N/N)}}^{\text{previously uninfected trees}}}{K}\right)}}_{\text{fraction newly infected}}  &quot; alt=&quot;\underbrace{1 - e^{-\left(\lambda (P_J + P_A) \frac{\overbrace{Ne^{(-P_N/N)}}^{\text{previously uninfected trees}}}{K}\right)}}_{\text{fraction newly infected}}  &quot; /&gt;&lt;/div&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The inverse of this is “Years to Infection”, which I plot below against the number of infected trees.&lt;/p&gt;
+&lt;pre class=&quot;sourceCode r&quot;&gt;&lt;code class=&quot;sourceCode r&quot;&gt;&lt;span class=&quot;kw&quot;&gt;ggplot&lt;/span&gt;(&lt;span class=&quot;kw&quot;&gt;subset&lt;/span&gt;(mdf, Class %in%&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;J.infyrs&amp;quot;&lt;/span&gt;, &lt;span class=&quot;st&quot;&gt;&amp;quot;A.infyrs&amp;quot;&lt;/span&gt;) ), 
+       &lt;span class=&quot;kw&quot;&gt;aes&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;x=&lt;/span&gt;Inf.dens, &lt;span class=&quot;dt&quot;&gt;y=&lt;/span&gt;Population, &lt;span class=&quot;dt&quot;&gt;col=&lt;/span&gt;Class)) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;geom_point&lt;/span&gt;(&lt;span class=&quot;dt&quot;&gt;cex=&lt;/span&gt;&lt;span class=&quot;dv&quot;&gt;4&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;theme_nr +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;xlab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Number of infected trees&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;st&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylab&lt;/span&gt;(&lt;span class=&quot;st&quot;&gt;&amp;quot;Years to infection of uninfected individuals&amp;quot;&lt;/span&gt;) +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;JAlab +&lt;span class=&quot;st&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kw&quot;&gt;ylim&lt;/span&gt;(&lt;span class=&quot;dv&quot;&gt;0&lt;/span&gt;,&lt;span class=&quot;dv&quot;&gt;200&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;http://dl.dropbox.com/u/3356641/blogstuff/multi-infection-tests-unnamed-chunk-8.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;This is the rough equivalent to the bottom-left panel above from the Cobb et al. (2012). I’ve cut it off above 200 because years-to-infection quickly rise as the infection rate approaches zero. Neverthless, there’s a similar pattern to year-to-mortality, albeit shallower at the beginning and steeper at the end of the epidemic.&lt;/p&gt;
+&lt;h2 id=&quot;next-steps&quot;&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;This looks like a good start. This model is generating patterns observed in data on Sudden Oak Death in the wild, some explained and some unexplained. Some next steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Examine the effect and robustness to overdisperal, when infections are distributed as a negative binomial. &lt;a href=&quot;http://clas-pages.uncc.edu/ross-meentemeyer/&quot;&gt;Ross Meentemeyer&lt;/a&gt; has data on the distribution of infections on Bay Laurel trees that may be useful in parameterizing this.&lt;/li&gt;
+&lt;li&gt;Build in the multi-species case where there are reservoir/spreader species (Bay Laurel) and inert competitors (Redwood).&lt;/li&gt;
+&lt;li&gt;Generalize to more size classes. Not strictly neccessary for prediction, but important for robustness.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+&lt;p&gt;Anderson, R. M., and R. M. May. 1978. Regulation and stability of host-parasite population interactions: I. Regulatory processes. The Journal of Animal Ecology 47:219–247.&lt;/p&gt;
+&lt;p&gt;Cobb, R. C., J. A. N. Filipe, R. K. Meentemeyer, C. A. Gilligan, and D. M. Rizzo. 2012. Ecosystem transformation by emerging infectious disease: loss of large tanoak from California forests. Journal of Ecology 100:712–722.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Early Warning Signals: the Charted and Uncharted Territories</title>
+   <link href="http://www.noamross.net/blog/2013/5/30/new-paper-post.html"/>
+   <updated>2013-05-30T09:18:42-07:00</updated>
+   <id>hhttp://www.noamross.net/blog/2013/5/30/new-paper-post</id>
+   <content type="html">&lt;head&gt;
+  &lt;style type=&quot;text/css&quot;  media=&quot;all&quot;&gt;
+    table tbody {border-top:2px; border-bottom:2px;}
+    table thead {border-bottom:1px;}
+  &lt;/style&gt;
+&lt;/head&gt; &lt;p&gt;&lt;a href=&quot;carlboettiger.info&quot;&gt;Carl Boettiger&lt;/a&gt;, &lt;a href=&quot;http://two.ucdavis.edu/~me/&quot;&gt;Alan Hastings&lt;/a&gt; and I have &lt;a href=&quot;http://dx.doi.org/10.1007/s12080-013-0192-6&quot;&gt;a new review&lt;/a&gt; out on early warning signals and regime shifts. It’s about an idea that Carl and I have been kicking around for a couple of years and finally got around to writing up for a special issue of &lt;a href=&quot;http://link.springer.com/journal/12080&quot;&gt;&lt;em&gt;Theoretical Ecology&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;There has been a lot of excitement in the past six years or so about &lt;em&gt;early warning signs&lt;/em&gt; - statistical signals that indicate that an ecosystem is near a dramatic shift, like the collapse of a fishery or a switch from grassland to desert. Much of the interest in this work comes from the idea that these statistical signals could be general properties of ecosystems prone to such rapid changes. Thus, we might not need to know a great deal of detail about a specific ecosystem in order to use these kinds of signals to forecast change - a real benefit given the pace of global change and the paucity of data about a lot of ecosystems.&lt;/p&gt;
+&lt;p&gt;Our paper focuses on a flaw see with this approach: that these early warning signals are an emergent property of a &lt;em&gt;particular model&lt;/em&gt; used to represent ecosystems that have the potential to collapse. This model, called the “saddle node bifurcation” is often incorrectly equated with the idea of regime shifts &lt;em&gt;in general&lt;/em&gt;. However, it’s really just one of a number of mechanisms that can represent regime shifts. Yet because this model appears in several common mathematical representations of ecosystems, almost all work on early warning signals has assumed the saddle node mechanism.&lt;/p&gt;
+&lt;p&gt;Just because this model is commonly used to describe ecosystems doesn’t mean ecosystems &lt;em&gt;actually&lt;/em&gt; behave this way. Alan published &lt;a href=&quot;http://dx.doi.org/10.1111/j.1461-0248.2010.01439.x&quot;&gt;a paper in 2010&lt;/a&gt; showing a number of counterexamples - alternative ways a model could represent an ecosystem with the potential for a rapid shift - in which these signals never appear. Conversely, there are &lt;a href=&quot;http://dx.doi.org/10.1111/j.1600-0706.2012.20838.x&quot;&gt;several cases of models&lt;/a&gt; that exhibit early warning-like patterns without any imminent shift.&lt;/p&gt;
+&lt;p&gt;In our review, we try to illuminate what is known about warning signals observed in models that have a saddle node and contrast this to other models that have received much less attention. So far, for instance, empirical data have only been collected in systems for which the saddle-node is thought to be a very good representation (e.g., freshwater lakes, pitcher-plants). We need more examples of this type of model testing in different ecosystems with different potential mechanisms of regime shift.&lt;/p&gt;
+&lt;p&gt;Other models of ecosystems have the potential to provide &lt;em&gt;different&lt;/em&gt; warning signals, but we need to know more about them, and we need better methods of deciding &lt;em&gt;which&lt;/em&gt; model is appropriate to apply to any particular ecosystem. Early warning signals may be less generally applicable than initially hoped, but they can be quite powerful if properly applied.&lt;/p&gt;
+&lt;p&gt;The paper is &lt;a href=&quot;http://dx.doi.org/10.1007/s12080-013-0192-6&quot;&gt;up now at Theoretical Ecology&lt;/a&gt; but we also posted it to &lt;a href=&quot;http://arxiv.org/abs/1305.6700&quot;&gt;the arXiv here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Finally, this is my first paper in which pretty much all collaboration occurred over &lt;a href=&quot;https://github.com/&quot;&gt;github&lt;/a&gt;, so you can go and see the &lt;a href=&quot;https://github.com/cboettig/ews-review/commits/master/manuscript.md&quot;&gt;entire revision history&lt;/a&gt; there. This worked out great and I’ll definitely be doing it again.&lt;/p&gt;</content>
+ </entry>
+ 
+ 
+</feed>
