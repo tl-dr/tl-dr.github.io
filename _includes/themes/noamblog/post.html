@@ -1,0 +1,19 @@
+<div id="headblock">
+<h1 id="page.title"><a href="{{ BASE_PATH }}{{ page.url }}">{{ page.title }}</a></h1>
+<p>by <em>{{page.author}}</em>, {{ page.date | date_to_long_string }}</p>
+<hr />
+</div>
+<div class="contenttext"><p>{{page.content | markdownify}}</p></div>
+<ul class="tags">
+  
+    <li><strong>Tags: </strong></li>
+    {% for tag in page.tags %}
+    <li><a href="{{BASE_URL}}/tags.html#{{tag}}-ref">{{ tag }}</a></li>
+    {% endfor %}  
+</ul>
+{% include JB/comments %}
+
+<div class="noprint"><hr />
+<p>{% if page.previous %} <strong>Previous Post</strong>: <em><a href="{{ BASE_PATH }}{{ page.previous.url }}">{{ page.previous.title }}</a></em> {% endif %}</p>
+<p>{% if page.next %} <strong>Next Post</strong>: <em><a href="{{ BASE_PATH }}{{ page.next.url }}">{{ page.next.title }}</a></em> {% endif %}</p></div>
+
