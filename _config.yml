@@ -10,7 +10,7 @@ redirects: yes
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title: Ivan WJ
+title: Alpha Seeker
 tagline: trading models backtest, modelling, comparisons 
 author:
   name : Ivan WJ
@@ -86,7 +86,7 @@ JB :
   # Set 'provider' to false to turn commenting off globally.
   #
   comments :
-    provider : disqus
+    provider : false
     disqus :
       short_name : ivanwj
     livefyre :
